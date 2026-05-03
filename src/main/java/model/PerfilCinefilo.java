@@ -3,6 +3,7 @@ package model;
 import exception.DuracaoInvalidaException;
 import exception.NotaInvalidaException;
 import exception.PesoInvalidoException;
+import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
 import java.util.HashMap;
@@ -11,13 +12,15 @@ import java.util.Map;
 
 public class PerfilCinefilo {
     private Map<Genero, Double> pesoPorGenero;
+    private ClassificacaoEtaria classificacaoMaxima;
     private int duracaoMinima;
     private int duracaoMaxima;
     private List<Idioma> idiomas;
     private List<Filme> historicoDeFilmes;
     private Map<Filme, Double> mapaDeNotas;
 
-    public PerfilCinefilo(int duracaoMinima, int duracaoMaxima, List<Idioma> idiomas, List<Filme> historicoDeFilmes) {
+    public PerfilCinefilo(ClassificacaoEtaria classificacaoMaxima, int duracaoMinima, int duracaoMaxima, List<Idioma> idiomas, List<Filme> historicoDeFilmes) {
+        this.classificacaoMaxima = classificacaoMaxima;
         this.pesoPorGenero = new HashMap<>();
         setDuracao(duracaoMinima, duracaoMaxima);
         this.idiomas = idiomas;
@@ -56,6 +59,10 @@ public class PerfilCinefilo {
         this.duracaoMaxima = duracaoMaxima;
     }
 
+    public ClassificacaoEtaria getClassificacaoMaxima() {
+        return classificacaoMaxima;
+    }
+
     public int getDuracaoMinima() {
         return duracaoMinima;
     }
@@ -86,6 +93,10 @@ public class PerfilCinefilo {
 
     public void setIdiomas(List<Idioma> idiomas) {
         this.idiomas = idiomas;
+    }
+
+    public void setClassificacaoMaxima(ClassificacaoEtaria classificacaoMaxima) {
+        this.classificacaoMaxima = classificacaoMaxima;
     }
 
     public void setHistoricoDeFilmes(List<Filme> historicoDeFilmes) {

@@ -1,10 +1,12 @@
 package model;
 
+import model.enums.Genero;
 import model.enums.Idioma;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class FiltroFilmes {
     private List<Filme> filmesCatalogo;
@@ -24,6 +26,7 @@ public class FiltroFilmes {
         filtrarFilmesPorClassificacao();
         filtrarFilmesPorIdioma();
         filtrarFilmesJaAssistidos();
+        filtrarFilmesPorGenero();
         return filmesFiltrados;
     }
 
@@ -57,6 +60,17 @@ public class FiltroFilmes {
     }
 
     private void filtrarFilmesPorGenero(){
+        for (Map.Entry<Genero, Double> genero: perfilCinefilo.getPesoPorGenero().entrySet()) {
+            if (genero.getValue() == 0.0) {
+                for (Filme filme: filmesFiltrados) {
+                    for (Genero generoFilme: filme.getGeneros()) {
+                        if (generoFilme == genero.getKey()) {
+                            filmesFiltrados.remove(filme);
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
