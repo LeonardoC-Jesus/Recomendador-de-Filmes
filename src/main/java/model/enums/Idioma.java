@@ -1,9 +1,0 @@
-package model.enums;
-
-public enum Idioma {
-    PORTUGUES,
-    INGLES,
-    ESPANHOL,
-    JAPONES,
-    FRANCES;
-}
