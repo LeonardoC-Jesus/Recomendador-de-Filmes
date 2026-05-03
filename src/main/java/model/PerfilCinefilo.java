@@ -1,17 +1,22 @@
 package model;
 
+import model.enums.ClassificacaoEtaria;
+import model.enums.Idioma;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PerfilCinefilo {
+    private ClassificacaoEtaria classificacaoMaxima;
     private double peso;
     private int duracaoMininma;
     private int duracaoMaxima;
-    private List<String> idiomas;
-    private List<String> historicoDeFilmes;
-    private List<String> mapaDeNotas;
+    private List<Idioma> idiomas;
+    private List<Filme> historicoDeFilmes;
+    private List<Double> mapaDeNotas;
 
-    public PerfilCinefilo(double peso, int duracaoMininma, int duracaoMaxima, List<String> idiomas, List<String> historicoDeFilmes, List<String> mapaDeNotas) {
+    public PerfilCinefilo(ClassificacaoEtaria classificacaoMaxima, double peso, int duracaoMininma, int duracaoMaxima, List<String> idiomas, List<String> historicoDeFilmes, List<String> mapaDeNotas) {
+        this.classificacaoMaxima = classificacaoMaxima;
         this.peso = peso;
         this.duracaoMininma = duracaoMininma;
         this.duracaoMaxima = duracaoMaxima;
@@ -22,6 +27,10 @@ public class PerfilCinefilo {
 
     public void cadastrarPesoDeGenero() {
 
+    }
+
+    public ClassificacaoEtaria getClassificacaoMaxima() {
+        return classificacaoMaxima;
     }
 
     public double getPeso() {
@@ -36,16 +45,20 @@ public class PerfilCinefilo {
         return duracaoMaxima;
     }
 
-    public List<String> getIdiomas() {
+    public List<Idioma> getIdiomas() {
         return idiomas;
     }
 
-    public List<String> getHistoricoDeFilmes() {
+    public List<Filme> getHistoricoDeFilmes() {
         return historicoDeFilmes;
     }
 
-    public List<String> getMapaDeNotas() {
+    public List<Double> getMapaDeNotas() {
         return mapaDeNotas;
+    }
+
+    public void setClassificacaoMaxima(ClassificacaoEtaria classificacaoMaxima) {
+        this.classificacaoMaxima = classificacaoMaxima;
     }
 
     public void setPeso(double peso) {
@@ -60,15 +73,15 @@ public class PerfilCinefilo {
         this.duracaoMaxima = duracaoMaxima;
     }
 
-    public void setIdiomas(List<String> idiomas) {
+    public void setIdiomas(List<Idioma> idiomas) {
         this.idiomas = idiomas;
     }
 
-    public void setHistoricoDeFilmes(List<String> historicoDeFilmes) {
+    public void setHistoricoDeFilmes(List<Filme> historicoDeFilmes) {
         this.historicoDeFilmes = historicoDeFilmes;
     }
 
-    public void setMapaDeNotas(List<String> mapaDeNotas) {
+    public void setMapaDeNotas(List<Double> mapaDeNotas) {
         this.mapaDeNotas = mapaDeNotas;
     }
 }
