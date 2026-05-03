@@ -12,16 +12,16 @@ public class Filme {
     private int ano;
     private int duracao;
     private List<Genero> generos;
-    private List<Idioma> idiomas;
+    private Idioma idioma;
     private ClassificacaoEtaria classificacaoEtaria;
     private int popularidade;
 
-    public Filme(String titulo, int ano, int duracao, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
+    public Filme(String titulo, int ano, int duracao,Idioma idioma, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
         this.titulo = titulo;
         this.ano = ano;
         this.duracao = duracao;
         this.generos = new ArrayList<>();
-        this.idiomas = new ArrayList<>();
+        this.idioma = idioma;
         this.classificacaoEtaria = classificacaoEtaria;
         this.popularidade = popularidade;
     }
@@ -58,12 +58,12 @@ public class Filme {
         this.generos = generos;
     }
 
-    public List<Idioma> getIdiomas() {
-        return idiomas;
+    public Idioma getIdioma() {
+        return idioma;
     }
 
-    public void setIdiomas(List<Idioma> idiomas) {
-        this.idiomas = idiomas;
+    public void setIdioma(Idioma idioma) {
+        this.idioma = idioma;
     }
 
     public ClassificacaoEtaria getClassificacaoEtaria() {
