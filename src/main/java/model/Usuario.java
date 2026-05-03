@@ -1,14 +1,18 @@
 package model;
 
+import service.NotificadorPush;
+
 public class Usuario {
     private String nome;
     private int idade;
     private PerfilCinefilo perfilCinefilo;
     private Recomendacao recomendacao;
+    private boolean notificacoesHabilitadas;
 
-    public Usuario(String nome, int idade) {
+    public Usuario(String nome, int idade, boolean notificacoesHabilitadas) {
         this.nome = nome;
         this.idade = idade;
+        this.notificacoesHabilitadas = notificacoesHabilitadas;
     }
 
     public String getNome() {
@@ -27,6 +31,10 @@ public class Usuario {
         return perfilCinefilo;
     }
 
+    public boolean isNotificacoesHabilitadas() {
+        return notificacoesHabilitadas;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -41,5 +49,9 @@ public class Usuario {
 
     public void setPerfilCinefilo(PerfilCinefilo perfilCinefilo) {
         this.perfilCinefilo = perfilCinefilo;
+    }
+
+    public void setNotificacoesHabilitadas(boolean notificacoesHabilitadas) {
+        this.notificacoesHabilitadas = notificacoesHabilitadas;
     }
 }
