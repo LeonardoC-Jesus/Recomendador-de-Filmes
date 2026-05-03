@@ -1,74 +1,98 @@
 package model;
 
-import java.util.ArrayList;
+import exception.DuracaoInvalidaException;
+import exception.NotaInvalidaException;
+import exception.PesoInvalidoException;
+import model.enums.Genero;
+import model.enums.Idioma;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PerfilCinefilo {
-    private double peso;
-    private int duracaoMininma;
+    private Map<Genero, Double> pesoPorGenero;
+    private int duracaoMinima;
     private int duracaoMaxima;
-    private List<String> idiomas;
-    private List<String> historicoDeFilmes;
-    private List<String> mapaDeNotas;
+    private List<Idioma> idiomas;
+    private List<Filme> historicoDeFilmes;
+    private Map<Filme, Double> mapaDeNotas;
 
-    public PerfilCinefilo(double peso, int duracaoMininma, int duracaoMaxima, List<String> idiomas, List<String> historicoDeFilmes, List<String> mapaDeNotas) {
-        this.peso = peso;
-        this.duracaoMininma = duracaoMininma;
+    public PerfilCinefilo(int duracaoMinima, int duracaoMaxima, List<Idioma> idiomas, List<Filme> historicoDeFilmes) {
+        this.pesoPorGenero = new HashMap<>();
+        setDuracao(duracaoMinima, duracaoMaxima);
+        this.idiomas = idiomas;
+        this.historicoDeFilmes = historicoDeFilmes;
+        this.mapaDeNotas = new HashMap<>();
+    }
+
+    public void cadastrarPesoDeGenero(Genero genero, double peso) {
+        double pesoMinimo = 0.0;
+        double pesoMaximo = 1.0;
+
+        if (peso < pesoMinimo || peso > pesoMaximo) {
+            throw new PesoInvalidoException();
+        }
+
+        this.pesoPorGenero.put(genero, peso);
+    }
+
+    public void registrarNota(Filme filme, double nota) {
+        double notaMinima = 1;
+        double notaMaxima = 5;
+
+        if (nota < notaMinima || nota > notaMaxima) {
+            throw new NotaInvalidaException();
+        }
+
+        this.mapaDeNotas.put(filme, nota);
+    }
+
+    public void setDuracao(int duracaoMinima, int duracaoMaxima) {
+        if (duracaoMinima > duracaoMaxima) {
+            throw new DuracaoInvalidaException();
+        }
+
+        this.duracaoMinima = duracaoMinima;
         this.duracaoMaxima = duracaoMaxima;
-        this.idiomas = new ArrayList<>();
-        this.historicoDeFilmes = new ArrayList<>();
-        this.mapaDeNotas = new ArrayList<>();
     }
 
-    public void cadastrarPesoDeGenero() {
-
-    }
-
-    public double getPeso() {
-        return peso;
-    }
-
-    public int getDuracaoMininma() {
-        return duracaoMininma;
+    public int getDuracaoMinima() {
+        return duracaoMinima;
     }
 
     public int getDuracaoMaxima() {
         return duracaoMaxima;
     }
 
-    public List<String> getIdiomas() {
+    public Map<Genero, Double> getPesoPorGenero() {
+        return pesoPorGenero;
+    }
+
+    public List<Idioma> getIdiomas() {
         return idiomas;
     }
 
-    public List<String> getHistoricoDeFilmes() {
+    public List<Filme> getHistoricoDeFilmes() {
         return historicoDeFilmes;
     }
 
-    public List<String> getMapaDeNotas() {
+    public Map<Filme, Double> getMapaDeNotas() {
         return mapaDeNotas;
     }
 
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setPesoPorGenero(Map<Genero, Double> pesoPorGenero) {
+        this.pesoPorGenero = pesoPorGenero;
     }
 
-    public void setDuracaoMininma(int duracaoMininma) {
-        this.duracaoMininma = duracaoMininma;
-    }
-
-    public void setDuracaoMaxima(int duracaoMaxima) {
-        this.duracaoMaxima = duracaoMaxima;
-    }
-
-    public void setIdiomas(List<String> idiomas) {
+    public void setIdiomas(List<Idioma> idiomas) {
         this.idiomas = idiomas;
     }
 
-    public void setHistoricoDeFilmes(List<String> historicoDeFilmes) {
+    public void setHistoricoDeFilmes(List<Filme> historicoDeFilmes) {
         this.historicoDeFilmes = historicoDeFilmes;
     }
 
-    public void setMapaDeNotas(List<String> mapaDeNotas) {
+    public void setMapaDeNotas(Map<Filme, Double> mapaDeNotas) {
         this.mapaDeNotas = mapaDeNotas;
     }
 }
