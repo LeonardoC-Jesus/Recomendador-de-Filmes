@@ -2,6 +2,7 @@ import model.Filme;
 import model.FiltroFilmes;
 import model.PerfilCinefilo;
 import model.enums.ClassificacaoEtaria;
+import model.enums.Genero;
 import model.enums.Idioma;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,9 +12,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import service.CatalogoFilmesAPI;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Collections.addAll;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -29,34 +32,51 @@ public class FiltroFilmesTest {
     List<Filme> filmesDoCatalogo;
     PerfilCinefilo perfilCinefilo;
 
+    Filme interestelar;
+    Filme oAutoDaCompadecida;
+    Filme coringa;
+    Filme parasita;
+    Filme shrek;
+    Filme bobEsponja;
+
     @BeforeEach
     public void setup() {
-        List<Filme> filmesNoHistorico = List.of(new Filme("Matrix", 1999, 136, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 100),
-        new Filme("Bob Esponja", 2004, 87, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40));
+        // Exemplo de como associar aos filmes que já criamos
+        List<Genero> generosInterestelar = List.of(Genero.FICCAO_CIENTIFICA, Genero.DRAMA);
+        List<Genero> generosAutoDaCompadecida = List.of(Genero.COMEDIA);
+        List<Genero> generosCoringa = List.of(Genero.DRAMA, Genero.ACAO);
+        List<Genero> generosParasita = List.of(Genero.DRAMA, Genero.TERROR);
+        List<Genero> generosShrek = List.of(Genero.COMEDIA, Genero.FICCAO_CIENTIFICA);
+        List<Genero> generosBobEsponja = List.of(Genero.COMEDIA);
+        List<Genero> generosMatrix = List.of(Genero.FICCAO_CIENTIFICA, Genero.ACAO);
+
+        List<Filme> filmesNoHistorico = List.of(new Filme("Matrix", 1999, 136,generosMatrix, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 100),
+        new Filme("Bob Esponja", 2004, 87, generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40));
 
         // Filme(titulo, ano, duracao, idioma, classificacaoEtaria, popularidade)
-        Filme interestelar = new Filme("Interestelar", 2014, 169, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
-        Filme oAutoDaCompadecida = new Filme("O Auto da Compadecida", 2000, 104, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
-        Filme coringa = new Filme("Coringa", 2019, 122, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 92);
-        Filme parasita = new Filme("Parasita", 2019, 132, Idioma.JAPONES, ClassificacaoEtaria.DEZOITO, 94);
-        Filme shrek = new Filme("Shrek", 2001, 90, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 85);
-        Filme bobEsponja = new Filme("Bob Esponja", 2004, 87, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40);
-
-        filmesDoCatalogo = Arrays.asList(interestelar, oAutoDaCompadecida, coringa, parasita, shrek,bobEsponja);
+        interestelar = new Filme("Interestelar", 2014, 169,generosInterestelar, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
+        oAutoDaCompadecida = new Filme("O Auto da Compadecida", 2000, 104,generosAutoDaCompadecida, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
+        coringa = new Filme("Coringa", 2019, 122,generosCoringa, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 92);
+        parasita = new Filme("Parasita", 2019, 132,generosParasita, Idioma.JAPONES, ClassificacaoEtaria.DEZOITO, 94);
+        shrek = new Filme("Shrek", 2001, 90,generosShrek, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 85);
+        bobEsponja = new Filme("Bob Esponja", 2004, 87,generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40);
 
         List<Idioma> idiomas = List.of(Idioma.PORTUGUES, Idioma.INGLES);
+        filmesDoCatalogo = new ArrayList<>();
 
         perfilCinefilo =
                 new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 150, idiomas, filmesNoHistorico);
-
-        filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
     }
 
     @Test
     public void deve_RemoverFilme_Quando_JaFoiAssistido() {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+        filmesDoCatalogo.add(shrek);
+        filmesDoCatalogo.add(coringa);
+        filmesDoCatalogo.add(bobEsponja);
+
         filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
-        filtroFilmes.filtrarFilmesJaAssistidos();
+        filtroFilmes.filtrarFilmes();
 
         assertNotEquals("Bob Esponja", filtroFilmes.getFilmesFiltrados().getLast().getTitulo());
     }
@@ -64,9 +84,13 @@ public class FiltroFilmesTest {
     @Test
     public void deve_RemoverFilme_Quando_UltrapassarClassificacaoEtaria() {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+        filmesDoCatalogo.add(shrek);
+        filmesDoCatalogo.add(parasita);
+        filmesDoCatalogo.add(interestelar);
+
         filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
 
-        filtroFilmes.filtrarFilmesPorClassificacao();
+        filtroFilmes.filtrarFilmes();
 
         assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
     }
@@ -74,9 +98,13 @@ public class FiltroFilmesTest {
     @Test
     public void deve_RemoverFilme_Quando_IdiomaNaoAceito() {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+        filmesDoCatalogo.add(parasita);
+        filmesDoCatalogo.add(oAutoDaCompadecida);
+        filmesDoCatalogo.add(coringa);
+
         filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
 
-        filtroFilmes.filtrarFilmesPorIdioma();
+        filtroFilmes.filtrarFilmes();
 
         assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
     }
@@ -85,10 +113,29 @@ public class FiltroFilmesTest {
     @Test
     public void deve_RemoverFilme_Quando_FilmeComPesoZero() {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+        filmesDoCatalogo.add(interestelar);
+        filmesDoCatalogo.add(oAutoDaCompadecida);
+        filmesDoCatalogo.add(shrek);
+
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, 1.0);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA, 0.5);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.DRAMA, 0.0);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.FICCAO_CIENTIFICA, 0.7);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA_ROMANTICA, 1.0);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.DOCUMENTARIO, 0.2);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.ROMANCE, 0.8);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.TERROR, 0.5);
         filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
 
-        filtroFilmes.filtrarFilmesPorGenero();
+        filtroFilmes.filtrarFilmes();
 
-        assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
+        assertEquals(2,filtroFilmes.getFilmesFiltrados().size());
+    }
+
+    @Test
+    public void deve_RetornarUmaListaVazia_Quando_ListaEstiverVazia() {
+        when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+        filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
+        assertNotNull(filtroFilmes.filtrarFilmes());
     }
 }
