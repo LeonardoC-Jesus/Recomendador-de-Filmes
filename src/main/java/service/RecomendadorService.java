@@ -4,6 +4,7 @@ import model.*;
 import util.GeradorAleatorio;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -24,6 +25,8 @@ public class RecomendadorService {
 
     public List<Recomendacao> recomendar(Usuario usuario, int topN) {
         List<Filme> filmes = filtrarFilmes();
+        if (filmes == null) return Collections.emptyList();
+
         List<Recomendacao> recomendacoes = calcularScore(filmes);
         List<Recomendacao> recomendacoesOrdenadas = ordenarPorScore(recomendacoes);
         List<Recomendacao> recomendacoesTopN = new ArrayList<>();
