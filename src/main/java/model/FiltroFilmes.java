@@ -2,6 +2,7 @@ package model;
 
 import model.enums.Genero;
 import model.enums.Idioma;
+import service.CatalogoFilmesAPI;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,18 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 public class FiltroFilmes {
-    private List<Filme> filmesCatalogo;
     private List<Filme> filmesFiltrados;
     private PerfilCinefilo perfilCinefilo;
-    private CatalogoFilmesAPI catalogoFilmesAPI;
 
     public FiltroFilmes(CatalogoFilmesAPI catalogoFilmesAPI, PerfilCinefilo perfilCinefilo) {
         this.perfilCinefilo = perfilCinefilo;
-        this.filmesCatalogo = catalogoFilmesAPI.buscarFilmes();
+        this.filmesFiltrados = catalogoFilmesAPI.buscarFilmes();
     }
 
     public List<Filme> filtrarFilmes() {
-        if (filmesCatalogo.isEmpty()) {
+        if (filmesFiltrados.isEmpty()) {
             return Collections.emptyList();
         }
         filtrarFilmesPorClassificacao();
@@ -30,48 +29,56 @@ public class FiltroFilmes {
         return filmesFiltrados;
     }
 
+
     private void filtrarFilmesPorClassificacao() {
-        for (Filme filme : filmesCatalogo) {
-            if (filme.getClassificacaoEtaria().getCLASSIFICACAO() > perfilCinefilo.getClassificacaoMaxima().getCLASSIFICACAO()) {
-                filmesCatalogo.remove(filme);
+        List<Filme> filmesPorClassificacao = new ArrayList<>();
+
+        for (Filme filme : filmesFiltrados) {
+            if (filme.getClassificacaoEtaria().getCLASSIFICACAO() <= perfilCinefilo.getClassificacaoMaxima().getCLASSIFICACAO()) {
+                filmesPorClassificacao.add(filme);
             }
         }
-        filmesFiltrados = filmesCatalogo;
+        filmesFiltrados = filmesPorClassificacao;
     }
 
     private void filtrarFilmesPorIdioma(){
+        List<Filme> filmesPorIdioma = new ArrayList<>();
+
         for (Filme filme: filmesFiltrados) {
             for (Idioma idioma: perfilCinefilo.getIdiomas()) {
-                if (filme.getIdioma() != idioma) {
-                    filmesFiltrados.remove(filme);
+                if (filme.getIdioma() == idioma) {
+                    filmesPorIdioma.add(filme);
                 }
             }
         }
+
+        filmesFiltrados = filmesPorIdioma;
     }
 
     private void filtrarFilmesJaAssistidos() {
-        List<Filme> filmesAssistidos = perfilCinefilo.getHistoricoDeFilmes();
+        List<Filme> filmesDoHistorico = perfilCinefilo.getHistoricoDeFilmes();
+        List<Filme> filmesNaoAssistidos = new ArrayList<>();
 
-        for (Filme filme: filmesFiltrados) {
-            if (filmesAssistidos.contains(filme)) {
-                filmesFiltrados.remove(filme);
+        for (Filme filmedoCatalogo : filmesDoHistorico) {
+            if (!filmesFiltrados.contains(filmedoCatalogo)) {
+                filmesNaoAssistidos.add(filmedoCatalogo);
             }
         }
+
+        filmesFiltrados = filmesNaoAssistidos;
     }
 
     private void filtrarFilmesPorGenero(){
-        for (Map.Entry<Genero, Double> genero: perfilCinefilo.getPesoPorGenero().entrySet()) {
-            if (genero.getValue() == 0.0) {
-                for (Filme filme: filmesFiltrados) {
-                    for (Genero generoFilme: filme.getGeneros()) {
-                        if (generoFilme == genero.getKey()) {
-                            filmesFiltrados.remove(filme);
-                        }
-                    }
-                }
-            }
-        }
+        List<Filme> filmesPorGenero = new ArrayList<>();
 
+        for (Map.Entry<Genero, Double> genero: perfilCinefilo.getPesoPorGenero().entrySet()) {
+            filmesFiltrados.removeIf(filme -> filme.getGeneros().contains(genero.getKey()) && genero.getValue() == 0.0);
+        }
     }
+
+    public List<Filme> getFilmesFiltrados() {
+        return filmesFiltrados;
+    }
+
 
 }

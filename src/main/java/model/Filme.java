@@ -4,7 +4,6 @@ import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Filme {
@@ -16,12 +15,12 @@ public class Filme {
     private Idioma idioma;
     private ClassificacaoEtaria classificacaoEtaria;
     private int popularidade;
-
-    public Filme(String titulo, int ano, int duracao, Idioma idioma, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
+    
+    public Filme(String titulo, int ano, int duracao,List<Genero> generos, Idioma idioma, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
         this.titulo = titulo;
         this.ano = ano;
         this.duracao = duracao;
-        this.generos = new ArrayList<>();
+        this.generos = generos;
         this.idioma = idioma;
         this.classificacaoEtaria = classificacaoEtaria;
         this.popularidade = popularidade;
@@ -102,5 +101,12 @@ public class Filme {
 
     public void setPopularidade(int popularidade) {
         this.popularidade = popularidade;
+    }
+    
+    @Override
+    public String toString() {
+        return "Filme{" +
+                 titulo + '\'' +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package service;
 
+import model.Filme;
 import model.Recomendacao;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface HistoricoUsuarioRepository {
      * Recupera a lista completa de todas as recomendações já realizadas.
      * * @return Uma {@link List} contendo todos os objetos {@link Recomendacao} registrados.
      */
-    List<Recomendacao> consultarTudo();
+    List<Filme> consultarTudo();
 }
