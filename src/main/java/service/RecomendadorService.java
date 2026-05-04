@@ -23,16 +23,23 @@ public class RecomendadorService {
     }
 
     public List<Recomendacao> recomendar(Usuario usuario, int topN) {
+        List<Filme> filmes = filtrarFilmes();
+        List<Recomendacao> recomendacoes = calcularScore(filmes);
+        List<Recomendacao> recomendacoesOrdenadas = ordenarPorScore(recomendacoes);
+        List<Recomendacao> recomendacoesTopN = new ArrayList<>();
 
-        return new ArrayList<>();
+        for (int i = 0; i < topN; i++) {
+            recomendacoesTopN.add(recomendacoesOrdenadas.get(i));
+        }
+        return recomendacoesTopN;
     }
 
     private List<Filme> filtrarFilmes() {
         return filtroFilmes.filtrarFilmes();
     }
 
-    private List<Recomendacao> calcularScore() {
-        List<Filme> filmes = filtrarFilmes();
+    private List<Recomendacao> calcularScore(List<Filme> filmesFiltrados) {
+        List<Filme> filmes = filmesFiltrados;
         List<Recomendacao> recomendacoes = new ArrayList<>();
 
         for (Filme filme: filmes) {
@@ -54,29 +61,52 @@ public class RecomendadorService {
                     recomendacaoDeApoio = recomendacao;
                     recomendacao = recomendacaoDeComparacao;
                     recomendacaoDeComparacao = recomendacaoDeApoio;
-                } else if (recomendacao.getScoreCalculado() == recomendacaoDeComparacao.getScoreCalculado()) {
-                    if (recomendacao.getFilme().getPopularidade() > recomendacaoDeComparacao.getFilme().getPopularidade()) {
-                        recomendacaoDeApoio = recomendacao;
-                        recomendacao = recomendacaoDeComparacao;
-                        recomendacaoDeComparacao = recomendacaoDeApoio;
-                    } else if (recomendacao.getFilme().getPopularidade() == recomendacaoDeComparacao.getFilme().getPopularidade()) {
-                        GeradorAleatorio gerador = new GeradorAleatorio() {
-                            @Override
-                            public int sortear(int limite) {
-                                Random random = new Random();
-                                return random.nextInt(limite);
-                            }
-                        };
+                }
+            }
+        }
+        recomendacoes = desempatarPorPopularidade(recomendacoes);
+        recomendacoes = desempatarPorAleatoriedade(recomendacoes);
+        return recomendacoes;
+    }
 
-                        int numeroSorteado1 = gerador.sortear(10);
-                        int numeroSorteado2 = gerador.sortear(10);
 
-                        if (numeroSorteado1 > numeroSorteado2) {
-                            recomendacaoDeApoio = recomendacao;
-                            recomendacao = recomendacaoDeComparacao;
-                            recomendacaoDeComparacao = recomendacaoDeApoio;
-                        }
-                    }
+    private List<Recomendacao> desempatarPorPopularidade(List<Recomendacao> recomendacoes) {
+        Recomendacao recomendacaoDeApoio;
+
+        for (Recomendacao recomendacao: recomendacoes) {
+            for (Recomendacao recomendacaoDeComparacao: recomendacoes) {
+                if (recomendacao.getScoreCalculado() == recomendacaoDeComparacao.getScoreCalculado()
+                        && recomendacao.getFilme().getPopularidade() > recomendacaoDeComparacao.getFilme().getPopularidade()) {
+                    recomendacaoDeApoio = recomendacao;
+                    recomendacao = recomendacaoDeComparacao;
+                    recomendacaoDeComparacao = recomendacaoDeApoio;
+                }
+            }
+        }
+        return recomendacoes;
+    }
+
+    private List<Recomendacao> desempatarPorAleatoriedade(List<Recomendacao> recomendacoes) {
+        Recomendacao recomendacaoDeApoio;
+
+        GeradorAleatorio gerador = new GeradorAleatorio() {
+            @Override
+            public int sortear(int limite) {
+                Random random = new Random();
+                return random.nextInt(limite);
+            }
+        };
+
+        int numeroSorteado1 = gerador.sortear(100);
+        int numeroSorteado2 = gerador.sortear(100);
+
+        for (Recomendacao recomendacao: recomendacoes) {
+            for (Recomendacao recomendacaoDeComparacao: recomendacoes) {
+                if (recomendacao.getFilme().getPopularidade() == recomendacaoDeComparacao.getFilme().getPopularidade()
+                        && numeroSorteado1 > numeroSorteado2) {
+                    recomendacaoDeApoio = recomendacao;
+                    recomendacao = recomendacaoDeComparacao;
+                    recomendacaoDeComparacao = recomendacaoDeApoio;
                 }
             }
         }
