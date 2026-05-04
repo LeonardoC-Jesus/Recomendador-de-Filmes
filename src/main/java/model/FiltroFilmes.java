@@ -55,11 +55,11 @@ public class FiltroFilmes {
     }
 
     public void filtrarFilmesJaAssistidos() {
-        List<Filme> filmesDoCatalogo = perfilCinefilo.getHistoricoDeFilmes();
+        List<Filme> filmesDoHistorico = perfilCinefilo.getHistoricoDeFilmes();
         List<Filme> filmesNaoAssistidos = new ArrayList<>();
 
-        for (Filme filmedoCatalogo : filmesDoCatalogo) {
-            if (filmesFiltrados.contains(filmedoCatalogo)) {
+        for (Filme filmedoCatalogo : filmesDoHistorico) {
+            if (!filmesFiltrados.contains(filmedoCatalogo)) {
                 filmesNaoAssistidos.add(filmedoCatalogo);
             }
         }
@@ -71,15 +71,7 @@ public class FiltroFilmes {
         List<Filme> filmesPorGenero = new ArrayList<>();
 
         for (Map.Entry<Genero, Double> genero: perfilCinefilo.getPesoPorGenero().entrySet()) {
-            if (genero.getValue() != 0.0) {
-                for (Filme filme: filmesFiltrados) {
-                    for (Genero generoFilme: filme.getGeneros()) {
-                        if (generoFilme == genero.getKey()) {
-                            filmesPorGenero.add(filme);
-                        }
-                    }
-                }
-            }
+            filmesFiltrados.removeIf(filme -> filme.getGeneros().contains(genero.getKey()) && genero.getValue() == 0.0);
         }
     }
 
