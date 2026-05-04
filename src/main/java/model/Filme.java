@@ -40,6 +40,14 @@ public class Filme {
         return id != null ? id.hashCode() : 0;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getTitulo() {
         return titulo;
     }
