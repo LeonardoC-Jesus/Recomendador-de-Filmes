@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Filme {
+    private Long id;
     private String titulo;
     private int ano;
     private int duracao;
@@ -16,7 +17,7 @@ public class Filme {
     private ClassificacaoEtaria classificacaoEtaria;
     private int popularidade;
 
-    public Filme(String titulo, int ano, int duracao,Idioma idioma, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
+    public Filme(String titulo, int ano, int duracao, Idioma idioma, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
         this.titulo = titulo;
         this.ano = ano;
         this.duracao = duracao;
@@ -24,6 +25,19 @@ public class Filme {
         this.idioma = idioma;
         this.classificacaoEtaria = classificacaoEtaria;
         this.popularidade = popularidade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Filme filme = (Filme) o;
+        return id != null && id.equals(filme.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     public String getTitulo() {
