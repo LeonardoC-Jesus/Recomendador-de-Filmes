@@ -50,16 +50,16 @@ public class FiltroFilmesTest {
         List<Genero> generosBobEsponja = List.of(Genero.COMEDIA);
         List<Genero> generosMatrix = List.of(Genero.FICCAO_CIENTIFICA, Genero.ACAO);
 
-        List<Filme> filmesNoHistorico = List.of(new Filme("Matrix", 1999, 136,generosMatrix, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 100),
-        new Filme("Bob Esponja", 2004, 87, generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40));
+        List<Filme> filmesNoHistorico = List.of(new Filme(7L,"Matrix", 1999, 136,generosMatrix, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 100),
+        new Filme(6L, "Bob Esponja", 2004, 87, generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40));
 
         // Filme(titulo, ano, duracao, idioma, classificacaoEtaria, popularidade)
-        interestelar = new Filme("Interestelar", 2014, 169,generosInterestelar, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
-        oAutoDaCompadecida = new Filme("O Auto da Compadecida", 2000, 104,generosAutoDaCompadecida, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
-        coringa = new Filme("Coringa", 2019, 122,generosCoringa, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 92);
-        parasita = new Filme("Parasita", 2019, 132,generosParasita, Idioma.JAPONES, ClassificacaoEtaria.DEZOITO, 94);
-        shrek = new Filme("Shrek", 2001, 90,generosShrek, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 85);
-        bobEsponja = new Filme("Bob Esponja", 2004, 87,generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40);
+        interestelar = new Filme(1L,"Interestelar", 2014, 169,generosInterestelar, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
+        oAutoDaCompadecida = new Filme(2L,"O Auto da Compadecida", 2000, 104,generosAutoDaCompadecida, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
+        coringa = new Filme(3L, "Coringa", 2019, 122,generosCoringa, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 92);
+        parasita = new Filme(4L, "Parasita", 2019, 132,generosParasita, Idioma.JAPONES, ClassificacaoEtaria.DEZOITO, 94);
+        shrek = new Filme(5L,"Shrek", 2001, 90,generosShrek, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 85);
+        bobEsponja = new Filme(6L, "Bob Esponja", 2004, 87,generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40);
 
         List<Idioma> idiomas = List.of(Idioma.PORTUGUES, Idioma.INGLES);
         filmesDoCatalogo = new ArrayList<>();

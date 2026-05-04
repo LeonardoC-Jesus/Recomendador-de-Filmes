@@ -1,9 +1,12 @@
 import model.Filme;
 import model.enums.ClassificacaoEtaria;
+import model.enums.Genero;
 import model.enums.Idioma;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,13 +16,15 @@ public class FilmeTest {
 
     @BeforeEach
     void setUp() {
-        filme = new Filme("Oppenheimer",
+        List<Genero> generos = List.of(Genero.DRAMA);
+        filme = new Filme(1L,
+                "Oppenheimer",
                 2023,
                 180,
+                generos,
                 Idioma.INGLES,
                 ClassificacaoEtaria.DEZESSEIS,
                 95);
-        filme.setId(1L);
     }
 
     @Test
@@ -42,13 +47,15 @@ public class FilmeTest {
     @DisplayName("Deve considerar dois filmes iguais quando possuem o mesmo ID")
     void deve_considerarFilmesIguais_quando_temMesmoId() {
 
-        Filme outroFilme = new Filme("Filme Diferente",
+        List<Genero> generos = List.of(Genero.FICCAO_CIENTIFICA);
+        Filme outroFilme = new Filme(1L,
+                "Filme Diferente",
                 1990,
                 90,
+                generos,
                 Idioma.JAPONES,
                 ClassificacaoEtaria.DEZOITO,
                 10);
-        outroFilme.setId(1L);
 
         assertEquals(filme, outroFilme, "Filmes com o mesmo ID devem ser considerados iguais pelo equals");
         assertEquals(filme.hashCode(), outroFilme.hashCode(), "Filmes iguais devem gerar o mesmo hashCode");

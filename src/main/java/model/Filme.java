@@ -16,7 +16,8 @@ public class Filme {
     private ClassificacaoEtaria classificacaoEtaria;
     private int popularidade;
     
-    public Filme(String titulo, int ano, int duracao,List<Genero> generos, Idioma idioma, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
+    public Filme(Long id, String titulo, int ano, int duracao,List<Genero> generos, Idioma idioma, ClassificacaoEtaria classificacaoEtaria, int popularidade) {
+        this.id = id;
         this.titulo = titulo;
         this.ano = ano;
         this.duracao = duracao;
