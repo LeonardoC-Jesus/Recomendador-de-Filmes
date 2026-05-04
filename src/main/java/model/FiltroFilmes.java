@@ -1,5 +1,6 @@
 package model;
 
+import com.google.common.annotations.VisibleForTesting;
 import model.enums.Genero;
 import model.enums.Idioma;
 import service.CatalogoFilmesAPI;
@@ -29,7 +30,8 @@ public class FiltroFilmes {
         return filmesFiltrados;
     }
 
-    public void filtrarFilmesPorClassificacao() {
+
+    private void filtrarFilmesPorClassificacao() {
         List<Filme> filmesPorClassificacao = new ArrayList<>();
 
         for (Filme filme : filmesFiltrados) {
@@ -40,7 +42,7 @@ public class FiltroFilmes {
         filmesFiltrados = filmesPorClassificacao;
     }
 
-    public void filtrarFilmesPorIdioma(){
+    private void filtrarFilmesPorIdioma(){
         List<Filme> filmesPorIdioma = new ArrayList<>();
 
         for (Filme filme: filmesFiltrados) {
@@ -54,7 +56,7 @@ public class FiltroFilmes {
         filmesFiltrados = filmesPorIdioma;
     }
 
-    public void filtrarFilmesJaAssistidos() {
+    private void filtrarFilmesJaAssistidos() {
         List<Filme> filmesDoHistorico = perfilCinefilo.getHistoricoDeFilmes();
         List<Filme> filmesNaoAssistidos = new ArrayList<>();
 
@@ -67,7 +69,7 @@ public class FiltroFilmes {
         filmesFiltrados = filmesNaoAssistidos;
     }
 
-    public void filtrarFilmesPorGenero(){
+    private void filtrarFilmesPorGenero(){
         List<Filme> filmesPorGenero = new ArrayList<>();
 
         for (Map.Entry<Genero, Double> genero: perfilCinefilo.getPesoPorGenero().entrySet()) {
