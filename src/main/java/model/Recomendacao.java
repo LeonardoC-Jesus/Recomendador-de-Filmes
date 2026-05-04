@@ -2,10 +2,10 @@ package model;
 
 public class Recomendacao {
     private Filme filme;
-    private int scoreCalculado;
+    private double scoreCalculado;
     private String justificativa;
 
-    public Recomendacao(Filme filme, int scoreCalculado, String justificativa) {
+    public Recomendacao(Filme filme, double scoreCalculado, String justificativa) {
         this.filme = filme;
         this.scoreCalculado = scoreCalculado;
         this.justificativa = justificativa;
@@ -19,11 +19,11 @@ public class Recomendacao {
         this.filme = filme;
     }
 
-    public int getScoreCalculado() {
+    public double getScoreCalculado() {
         return scoreCalculado;
     }
 
-    public void setScoreCalculado(int scoreCalculado) {
+    public void setScoreCalculado(double scoreCalculado) {
         this.scoreCalculado = scoreCalculado;
     }
 
