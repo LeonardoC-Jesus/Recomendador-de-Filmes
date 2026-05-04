@@ -2,25 +2,23 @@ package model;
 
 import model.enums.Genero;
 import model.enums.Idioma;
+import service.CatalogoFilmesAPI;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class FiltroFilmes {
-    private List<Filme> filmesCatalogo;
     private List<Filme> filmesFiltrados;
     private PerfilCinefilo perfilCinefilo;
-    private CatalogoFilmesAPI catalogoFilmesAPI;
 
     public FiltroFilmes(CatalogoFilmesAPI catalogoFilmesAPI, PerfilCinefilo perfilCinefilo) {
         this.perfilCinefilo = perfilCinefilo;
-        this.filmesCatalogo = catalogoFilmesAPI.buscarFilmes();
+        this.filmesFiltrados = catalogoFilmesAPI.buscarFilmes();
     }
 
     public List<Filme> filtrarFilmes() {
-        if (filmesCatalogo.isEmpty()) {
+        if (filmesFiltrados.isEmpty()) {
             return Collections.emptyList();
         }
         filtrarFilmesPorClassificacao();
@@ -30,16 +28,15 @@ public class FiltroFilmes {
         return filmesFiltrados;
     }
 
-    private void filtrarFilmesPorClassificacao() {
-        for (Filme filme : filmesCatalogo) {
+    public void filtrarFilmesPorClassificacao() {
+        for (Filme filme : filmesFiltrados) {
             if (filme.getClassificacaoEtaria().getCLASSIFICACAO() > perfilCinefilo.getClassificacaoMaxima().getCLASSIFICACAO()) {
-                filmesCatalogo.remove(filme);
+                filmesFiltrados.remove(filme);
             }
         }
-        filmesFiltrados = filmesCatalogo;
     }
 
-    private void filtrarFilmesPorIdioma(){
+    public void filtrarFilmesPorIdioma(){
         for (Filme filme: filmesFiltrados) {
             for (Idioma idioma: perfilCinefilo.getIdiomas()) {
                 if (filme.getIdioma() != idioma) {
@@ -49,7 +46,7 @@ public class FiltroFilmes {
         }
     }
 
-    private void filtrarFilmesJaAssistidos() {
+    public void filtrarFilmesJaAssistidos() {
         List<Filme> filmesAssistidos = perfilCinefilo.getHistoricoDeFilmes();
 
         for (Filme filme: filmesFiltrados) {
@@ -59,7 +56,7 @@ public class FiltroFilmes {
         }
     }
 
-    private void filtrarFilmesPorGenero(){
+    public void filtrarFilmesPorGenero(){
         for (Map.Entry<Genero, Double> genero: perfilCinefilo.getPesoPorGenero().entrySet()) {
             if (genero.getValue() == 0.0) {
                 for (Filme filme: filmesFiltrados) {
@@ -71,7 +68,9 @@ public class FiltroFilmes {
                 }
             }
         }
-
     }
 
+    public List<Filme> getFilmesFiltrados() {
+        return filmesFiltrados;
+    }
 }
