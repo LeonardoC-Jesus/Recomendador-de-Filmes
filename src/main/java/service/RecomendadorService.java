@@ -3,10 +3,7 @@ package service;
 import model.*;
 import util.GeradorAleatorio;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class RecomendadorService {
     private CatalogoFilmesAPI catalogoFilmesAPI;
@@ -23,6 +20,14 @@ public class RecomendadorService {
         this.filtroFilmes = new FiltroFilmes(catalogoFilmesAPI, perfilCinefilo);
     }
 
+    private  GeradorAleatorio gerador = new GeradorAleatorio() {
+        @Override
+        public int sortear(int limite) {
+            Random random = new Random();
+            return random.nextInt(limite);
+        }
+    };
+
     public List<Recomendacao> recomendar(Usuario usuario, int topN) {
         List<Filme> filmes = filtrarFilmes();
         if (filmes == null) return Collections.emptyList();
@@ -35,6 +40,13 @@ public class RecomendadorService {
             recomendacoesTopN.add(recomendacoesOrdenadas.get(i));
         }
         return recomendacoesTopN;
+    }
+
+    public Optional<Filme> recomendarAleatorio() {
+        List<Filme> filmes = filtrarFilmes();
+
+        int numeroAleatorio = gerador.sortear(filmes.size());
+        return Optional.ofNullable(filmes.get(numeroAleatorio));
     }
 
     private List<Filme> filtrarFilmes() {
@@ -91,14 +103,6 @@ public class RecomendadorService {
 
     private List<Recomendacao> desempatarPorAleatoriedade(List<Recomendacao> recomendacoes) {
         Recomendacao recomendacaoDeApoio;
-
-        GeradorAleatorio gerador = new GeradorAleatorio() {
-            @Override
-            public int sortear(int limite) {
-                Random random = new Random();
-                return random.nextInt(limite);
-            }
-        };
 
         int numeroSorteado1 = gerador.sortear(100);
         int numeroSorteado2 = gerador.sortear(100);
