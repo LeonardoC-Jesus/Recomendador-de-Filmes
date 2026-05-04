@@ -58,7 +58,7 @@ public class FiltroFilmesTest {
         filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
         filtroFilmes.filtrarFilmesJaAssistidos();
 
-        assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
+        assertNotEquals("Bob Esponja", filtroFilmes.getFilmesFiltrados().getLast().getTitulo());
     }
 
     @Test

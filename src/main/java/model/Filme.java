@@ -6,6 +6,7 @@ import model.enums.Idioma;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Filme {
     private String titulo;
@@ -80,5 +81,25 @@ public class Filme {
 
     public void setPopularidade(int popularidade) {
         this.popularidade = popularidade;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Filme filme = (Filme) o;
+        return ano == filme.ano && duracao == filme.duracao && popularidade == filme.popularidade && Objects.equals(titulo, filme.titulo) && Objects.equals(generos, filme.generos) && idioma == filme.idioma && classificacaoEtaria == filme.classificacaoEtaria;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(titulo, ano, duracao, generos, idioma, classificacaoEtaria, popularidade);
+    }
+
+    @Override
+    public String toString() {
+        return "Filme{" +
+                 titulo + '\'' +
+                '}';
     }
 }
