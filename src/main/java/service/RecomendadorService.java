@@ -30,7 +30,7 @@ public class RecomendadorService {
 
     public List<Recomendacao> recomendar(Usuario usuario, int topN) {
         List<Filme> filmes = filtrarFilmes();
-        if (filmes == null) return Collections.emptyList();
+        if (filmes == null || filmes.isEmpty()) return Collections.emptyList();
 
         List<Recomendacao> recomendacoes = calcularScore(filmes);
         List<Recomendacao> recomendacoesOrdenadas = ordenarPorScore(recomendacoes);
@@ -68,7 +68,9 @@ public class RecomendadorService {
     }
 
     private List<Recomendacao> ordenarPorScore(List<Recomendacao> recomendacoes) {
-        Recomendacao recomendacaoDeApoio;
+
+        List<Recomendacao> recomendacaosDesempatasPorPopularidade;
+        List<Recomendacao> recomendacaosOrdenadasAleatorio;
 
         for (int i = 0; i < recomendacoes.size(); i++) {
             for (int j = 0; j < recomendacoes.size(); j++) {
@@ -78,14 +80,13 @@ public class RecomendadorService {
             }
         }
 
-        recomendacoes = desempatarPorPopularidade(recomendacoes);
-        recomendacoes = desempatarPorAleatoriedade(recomendacoes);
-        return recomendacoes;
+        recomendacaosDesempatasPorPopularidade = desempatarPorPopularidade(recomendacoes);
+        recomendacaosOrdenadasAleatorio = desempatarPorAleatoriedade(recomendacaosDesempatasPorPopularidade);
+        return recomendacaosOrdenadasAleatorio;
     }
 
 
     private List<Recomendacao> desempatarPorPopularidade(List<Recomendacao> recomendacoes) {
-        Recomendacao recomendacaoDeApoio;
 
         for (int i = 0; i < recomendacoes.size(); i++) {
             for (int j = 0; j < recomendacoes.size(); j++) {
@@ -99,7 +100,6 @@ public class RecomendadorService {
     }
 
     private List<Recomendacao> desempatarPorAleatoriedade(List<Recomendacao> recomendacoes) {
-        Recomendacao recomendacaoDeApoio;
 
         int numeroSorteado1 = gerador.sortear(100);
         int numeroSorteado2 = gerador.sortear(100);
