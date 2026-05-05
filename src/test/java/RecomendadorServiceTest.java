@@ -1,5 +1,6 @@
 import model.*;
 import model.enums.ClassificacaoEtaria;
+import model.enums.Genero;
 import model.enums.Idioma;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import service.*;
 import util.GeradorAleatorio;
@@ -40,33 +42,37 @@ public class RecomendadorServiceTest {
     // Justificativa: Torna o comportamento aleatório determinante, permitindo testar sorteios com previsibilidade.
 
     private CalculadoraScore calculadoraScore;
-    private FiltroFilmes filtroFilmes;
+    private PerfilCinefilo perfilMaria;
     private Usuario maria;
+
+    Filme interestelar;
+    Filme oAutoDaCompadecida;
 
     @InjectMocks
     private RecomendadorService recomendadorService;
 
     @BeforeEach
     void setUp() {
-        PerfilCinefilo perfilMaria = new PerfilCinefilo(
+        List<Filme> historicoFilmes = new ArrayList<>();
+        interestelar = new Filme(1L,"Interestelar", 2014, 169,List.of(), Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
+        oAutoDaCompadecida = new Filme(2L,"O Auto da Compadecida", 2000, 104,List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
+
+        historicoFilmes.add(interestelar);
+        historicoFilmes.add(oAutoDaCompadecida);
+
+        perfilMaria = new PerfilCinefilo(
                 ClassificacaoEtaria.DEZOITO,
                 90,
                 150,
                 List.of(Idioma.PORTUGUES, Idioma.INGLES),
-                new ArrayList<>()
+                historicoFilmes
         );
 
         maria = new Usuario("Maria", 20, perfilMaria, true);
 
         calculadoraScore = new CalculadoraScore();
 
-        recomendadorService = new RecomendadorService(
-                catalogoFilmesAPI,
-                historicoUsuarioRepository,
-                perfilMaria,
-                filtroFilmes,
-                calculadoraScore
-                );
+
     }
 
     @Test
@@ -74,14 +80,21 @@ public class RecomendadorServiceTest {
     void deve_RetornarDoisItens_Quando_TopNForDois() {
 
         List<Filme> listaFilmes = Arrays.asList(
-                new Filme(1L, "F1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
-                new Filme(2L, "F2", 2023, 115, List.of(), Idioma.INGLES, ClassificacaoEtaria.DOZE, 85),
-                new Filme(3L, "F3", 2022, 110, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.DEZOITO, 93),
-                new Filme(4L, "F4", 2021, 105, List.of(), Idioma.ESPANHOL, ClassificacaoEtaria.LIVRE, 100),
-                new Filme(5L, "F5", 2020, 100, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 50)
+                new Filme(112L, "F1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
+                new Filme(211L, "F2", 2023, 115, List.of(), Idioma.INGLES, ClassificacaoEtaria.DOZE, 85),
+                new Filme(335L, "F3", 2022, 110, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.DEZOITO, 93),
+                new Filme(405L, "F4", 2021, 105, List.of(), Idioma.ESPANHOL, ClassificacaoEtaria.LIVRE, 100),
+                new Filme(534L, "F5", 2020, 100, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 50)
         );
 
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(listaFilmes);
+        recomendadorService = new RecomendadorService(
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraScore
+        );
 
         List<Recomendacao> resultado = recomendadorService.recomendar(maria, 2);
 
@@ -92,9 +105,28 @@ public class RecomendadorServiceTest {
     @DisplayName("Teste 2: as recomendações devem vir por score decrescente")
     void deve_OrdenarPorScoreDesc_Quando_ScoresSaoDiferentes() {
 
-        Filme filme1 = new Filme(1L, "Filme 1", 2024, 600, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 0);
-        Filme filme2 = new Filme(2L, "Filme 2", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
-        when(catalogoFilmesAPI.buscarFilmes()).thenReturn(Arrays.asList(filme1, filme2));
+        List<Filme> listaFilmes = Arrays.asList(
+                new Filme(195L, "Filme 1", 2024, 90, List.of(Genero.FICCAO_CIENTIFICA), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 0),
+                new Filme(209L, "Filme 2", 2024, 120, List.of(Genero.ACAO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
+        );
+
+        perfilMaria.cadastrarPesoDeGenero(Genero.ACAO, 1.0);
+        perfilMaria.cadastrarPesoDeGenero(Genero.COMEDIA, 0.5);
+        perfilMaria.cadastrarPesoDeGenero(Genero.DRAMA, 0.0);
+        perfilMaria.cadastrarPesoDeGenero(Genero.FICCAO_CIENTIFICA, 0.7);
+        perfilMaria.cadastrarPesoDeGenero(Genero.COMEDIA_ROMANTICA, 1.0);
+        perfilMaria.cadastrarPesoDeGenero(Genero.DOCUMENTARIO, 0.2);
+        perfilMaria.cadastrarPesoDeGenero(Genero.ROMANCE, 0.8);
+        perfilMaria.cadastrarPesoDeGenero(Genero.TERROR, 0.5);
+
+        when(catalogoFilmesAPI.buscarFilmes()).thenReturn(listaFilmes);
+        recomendadorService = new RecomendadorService(
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraScore
+        );
 
         List<Recomendacao> resultado = recomendadorService.recomendar(maria, 5);
 
@@ -106,7 +138,13 @@ public class RecomendadorServiceTest {
     void deve_RetornarVazio_Quando_APIFalha() {
 
         when(catalogoFilmesAPI.buscarFilmes()).thenThrow(new RuntimeException("IOException simulada"));
-
+        recomendadorService = new RecomendadorService(
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraScore
+        );
         List<Recomendacao> resultado = recomendadorService.recomendar(maria, 5);
 
         assertTrue(resultado.isEmpty());
@@ -119,7 +157,7 @@ public class RecomendadorServiceTest {
 
         maria.setNotificacoesHabilitadas(true);
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(List.of(
-                new Filme(1L, "Filme", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
+                new Filme(176L, "Filme", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
         ));
 
         recomendadorService.recomendar(maria, 1);
@@ -143,8 +181,17 @@ public class RecomendadorServiceTest {
     @DisplayName("Uso de ArgumentCaptor: validar lista no repositório")
     void deve_ValidarDadosGravados_UsandoArgumentCaptor() {
 
-        Filme f = new Filme(1L, "Filme", 2010, 148, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
-        when(catalogoFilmesAPI.buscarFilmes()).thenReturn(List.of(f));
+        Filme f = new Filme(197L, "Filme", 2010, 148, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
+        List<Filme> filmes = List.of(f);
+
+        when(catalogoFilmesAPI.buscarFilmes()).thenReturn(filmes);
+        recomendadorService = new RecomendadorService(
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraScore
+        );
         ArgumentCaptor<List<Recomendacao>> captor = ArgumentCaptor.forClass(List.class);
 
         recomendadorService.recomendar(maria, 1);
@@ -162,16 +209,25 @@ public class RecomendadorServiceTest {
     @DisplayName("Teste surpreenda-me: retorna filme no índice 2 sorteado")
     void deve_RetornarFilmeSorteado_NoModoSurpreendaMe() {
 
-        Filme filme = new Filme(3L, "Filme", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
-        List<Filme> filmes = Arrays.asList(mock(Filme.class), mock(Filme.class), filme);
+        Filme filme1 = new Filme(356L, "Filme1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
+        Filme filme2 = new Filme(357L, "Filme2", 2025, 100, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
+        List<Filme> filmes = List.of(filme1, filme2);
 
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(filmes);
 
-        when(geradorAleatorio.sortear(anyInt())).thenReturn(2);
+        when(geradorAleatorio.sortear(anyInt())).thenReturn(0);
+
+        recomendadorService = new RecomendadorService(
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraScore
+        );
 
         Optional<Filme> resultado = recomendadorService.recomendarAleatorio();
 
         assertTrue(resultado.isPresent());
-        assertEquals(filme, resultado.get());
+        assertEquals(filme1, resultado.get());
     }
 }
