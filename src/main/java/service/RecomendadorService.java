@@ -12,7 +12,7 @@ public class RecomendadorService {
     private FiltroFilmes filtroFilmes;
     private CalculadoraScore calculadoraScore;
 
-    public RecomendadorService(CatalogoFilmesAPI catalogoFilmesAPI, HistoricoUsuarioRepository historicoUsuarioRepository, PerfilCinefilo perfilCinefilo, FiltroFilmes filtroFilmes, CalculadoraScore calculadoraScore) {
+    public RecomendadorService(CatalogoFilmesAPI catalogoFilmesAPI, HistoricoUsuarioRepository historicoUsuarioRepository, PerfilCinefilo perfilCinefilo, CalculadoraScore calculadoraScore) {
         this.catalogoFilmesAPI = catalogoFilmesAPI;
         this.historicoUsuarioRepository = historicoUsuarioRepository;
         this.perfilCinefilo = perfilCinefilo;
