@@ -34,6 +34,6 @@ Teste que revelou -> Um teste de caso de borda com um filme sem gêneros cadastr
 Solução aplicada -> Inclusão de uma verificação defensiva no início do método: if (filme.getGeneros().isEmpty()) { return 0.0; }. Isso garante que o componente retorne zero imediatamente sem tentar realizar a divisão.
 
 Bug 8:
-Descrição -> No método recomendar, a exceção IndexOutOfBoundsException está sendo causada porque a lista estava saindo vazia.
-Teste que revelou -> deve_RetornarDoisItens_Quando_TopNForDois (Teste 1).
-Solução aplicada ->
+Descrição -> No método recomendar, a exceção IndexOutOfBoundsException está sendo lançada porque o sistema tenta acessar um indice inexistente na lista.
+Teste que revelou -> deve_OrdenarPorScoreDesc_Quando_ScoresSaoDiferentes() (Teste 2).
+Solução aplicada -> a inserção de uma condição a mais na hora de acessar algum indice da lista.
