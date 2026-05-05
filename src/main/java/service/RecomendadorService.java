@@ -6,27 +6,21 @@ import util.GeradorAleatorio;
 import java.util.*;
 
 public class RecomendadorService {
+    private GeradorAleatorio gerador;
     private CatalogoFilmesAPI catalogoFilmesAPI;
     private HistoricoUsuarioRepository historicoUsuarioRepository;
     private PerfilCinefilo perfilCinefilo;
     private FiltroFilmes filtroFilmes;
     private CalculadoraScore calculadoraScore;
 
-    public RecomendadorService(CatalogoFilmesAPI catalogoFilmesAPI, HistoricoUsuarioRepository historicoUsuarioRepository, PerfilCinefilo perfilCinefilo, CalculadoraScore calculadoraScore) {
+    public RecomendadorService(GeradorAleatorio gerador, CatalogoFilmesAPI catalogoFilmesAPI, HistoricoUsuarioRepository historicoUsuarioRepository, PerfilCinefilo perfilCinefilo, CalculadoraScore calculadoraScore) {
+        this.gerador = gerador;
         this.catalogoFilmesAPI = catalogoFilmesAPI;
         this.historicoUsuarioRepository = historicoUsuarioRepository;
         this.perfilCinefilo = perfilCinefilo;
         this.calculadoraScore = calculadoraScore;
         this.filtroFilmes = new FiltroFilmes(catalogoFilmesAPI, perfilCinefilo);
     }
-
-    private  GeradorAleatorio gerador = new GeradorAleatorio() {
-        @Override
-        public int sortear(int limite) {
-            Random random = new Random();
-            return random.nextInt(limite);
-        }
-    };
 
     public List<Recomendacao> recomendar(Usuario usuario, int topN) {
         List<Filme> filmes = filtrarFilmes();
@@ -37,7 +31,11 @@ public class RecomendadorService {
         List<Recomendacao> recomendacoesTopN = new ArrayList<>();
 
         for (int i = 0; i < topN; i++) {
-            recomendacoesTopN.add(recomendacoesOrdenadas.get(i));
+            if (i < filmes.size()) {
+                recomendacoesTopN.add(recomendacoesOrdenadas.get(i));
+            } else {
+                break;
+            }
         }
         return recomendacoesTopN;
     }
