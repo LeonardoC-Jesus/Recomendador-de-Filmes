@@ -6,16 +6,16 @@ import util.GeradorAleatorio;
 import java.util.*;
 
 public class RecomendadorService {
+    private NotificadorPush notificador;
     private GeradorAleatorio gerador;
-    private CatalogoFilmesAPI catalogoFilmesAPI;
     private HistoricoUsuarioRepository historicoUsuarioRepository;
     private PerfilCinefilo perfilCinefilo;
     private FiltroFilmes filtroFilmes;
     private CalculadoraScore calculadoraScore;
 
-    public RecomendadorService(GeradorAleatorio gerador, CatalogoFilmesAPI catalogoFilmesAPI, HistoricoUsuarioRepository historicoUsuarioRepository, PerfilCinefilo perfilCinefilo, CalculadoraScore calculadoraScore) {
+    public RecomendadorService(NotificadorPush notificador, GeradorAleatorio gerador, CatalogoFilmesAPI catalogoFilmesAPI, HistoricoUsuarioRepository historicoUsuarioRepository, PerfilCinefilo perfilCinefilo, CalculadoraScore calculadoraScore) {
+        this.notificador = notificador;
         this.gerador = gerador;
-        this.catalogoFilmesAPI = catalogoFilmesAPI;
         this.historicoUsuarioRepository = historicoUsuarioRepository;
         this.perfilCinefilo = perfilCinefilo;
         this.calculadoraScore = calculadoraScore;
@@ -36,6 +36,12 @@ public class RecomendadorService {
             } else {
                 break;
             }
+        }
+
+        historicoUsuarioRepository.registrarRecomendacao(recomendacoesTopN);
+
+        if (usuario.isNotificacoesHabilitadas()) {
+            notificador.enviarAviso("Nova lista de Recomendação disponivel", usuario);
         }
         return recomendacoesTopN;
     }
