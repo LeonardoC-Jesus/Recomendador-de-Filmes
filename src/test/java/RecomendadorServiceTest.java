@@ -23,16 +23,20 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class RecomendadorServiceTest {
 
-    @Mock private CatalogoFilmesAPI catalogoFilmesAPI;
+    @Mock
+    private CatalogoFilmesAPI catalogoFilmesAPI;
     // Justificativa: Evita chamadas de rede lentas e garante um catálogo controlado para o teste.
 
-    @Mock private HistoricoUsuarioRepository historicoUsuarioRepository;
+    @Mock
+    private HistoricoUsuarioRepository historicoUsuarioRepository;
     // Justificativa: Impede a escrita real em banco de dados ou disco durante a execução dos testes.
 
-    @Mock private NotificadorPush notificadorPush;
+    @Mock
+    private NotificadorPush notificadorPush;
     // Justificativa: Garante que notificações não sejam enviadas de verdade aos usuários durante o desenvolvimento.
 
-    @Mock private GeradorAleatorio geradorAleatorio;
+    @Mock
+    private GeradorAleatorio geradorAleatorio;
     // Justificativa: Torna o comportamento aleatório determinante, permitindo testar sorteios com previsibilidade.
 
     private CalculadoraScore calculadoraScore;

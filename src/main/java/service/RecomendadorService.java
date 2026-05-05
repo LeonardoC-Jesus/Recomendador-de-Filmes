@@ -70,15 +70,14 @@ public class RecomendadorService {
     private List<Recomendacao> ordenarPorScore(List<Recomendacao> recomendacoes) {
         Recomendacao recomendacaoDeApoio;
 
-        for (Recomendacao recomendacao: recomendacoes) {
-            for (Recomendacao recomendacaoDeComparacao: recomendacoes) {
-                if (recomendacao.getScoreCalculado() > recomendacaoDeComparacao.getScoreCalculado()) {
-                    recomendacaoDeApoio = recomendacao;
-                    recomendacao = recomendacaoDeComparacao;
-                    recomendacaoDeComparacao = recomendacaoDeApoio;
+        for (int i = 0; i < recomendacoes.size(); i++) {
+            for (int j = 0; j < recomendacoes.size(); j++) {
+                if (recomendacoes.get(i).getScoreCalculado() > recomendacoes.get(j).getScoreCalculado()) {
+                    Collections.swap(recomendacoes, i, j);
                 }
             }
         }
+
         recomendacoes = desempatarPorPopularidade(recomendacoes);
         recomendacoes = desempatarPorAleatoriedade(recomendacoes);
         return recomendacoes;
@@ -88,13 +87,11 @@ public class RecomendadorService {
     private List<Recomendacao> desempatarPorPopularidade(List<Recomendacao> recomendacoes) {
         Recomendacao recomendacaoDeApoio;
 
-        for (Recomendacao recomendacao: recomendacoes) {
-            for (Recomendacao recomendacaoDeComparacao: recomendacoes) {
-                if (recomendacao.getScoreCalculado() == recomendacaoDeComparacao.getScoreCalculado()
-                        && recomendacao.getFilme().getPopularidade() > recomendacaoDeComparacao.getFilme().getPopularidade()) {
-                    recomendacaoDeApoio = recomendacao;
-                    recomendacao = recomendacaoDeComparacao;
-                    recomendacaoDeComparacao = recomendacaoDeApoio;
+        for (int i = 0; i < recomendacoes.size(); i++) {
+            for (int j = 0; j < recomendacoes.size(); j++) {
+                if (recomendacoes.get(i).getScoreCalculado() == recomendacoes.get(j).getScoreCalculado()
+                        && recomendacoes.get(i).getFilme().getPopularidade() > recomendacoes.get(j).getFilme().getPopularidade()) {
+                    Collections.swap(recomendacoes, i, j);
                 }
             }
         }
@@ -107,16 +104,15 @@ public class RecomendadorService {
         int numeroSorteado1 = gerador.sortear(100);
         int numeroSorteado2 = gerador.sortear(100);
 
-        for (Recomendacao recomendacao: recomendacoes) {
-            for (Recomendacao recomendacaoDeComparacao: recomendacoes) {
-                if (recomendacao.getFilme().getPopularidade() == recomendacaoDeComparacao.getFilme().getPopularidade()
+        for (int i = 0; i < recomendacoes.size(); i++) {
+            for (int j = 0; j < recomendacoes.size(); j++) {
+                if (recomendacoes.get(i).getFilme().getPopularidade() == recomendacoes.get(j).getFilme().getPopularidade()
                         && numeroSorteado1 > numeroSorteado2) {
-                    recomendacaoDeApoio = recomendacao;
-                    recomendacao = recomendacaoDeComparacao;
-                    recomendacaoDeComparacao = recomendacaoDeApoio;
+                    Collections.swap(recomendacoes, i, j);
                 }
             }
         }
+
         return recomendacoes;
     }
 }
