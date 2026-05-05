@@ -89,6 +89,7 @@ public class RecomendadorServiceTest {
 
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(listaFilmes);
         recomendadorService = new RecomendadorService(
+                notificadorPush,
                 geradorAleatorio,
                 catalogoFilmesAPI,
                 historicoUsuarioRepository,
@@ -121,6 +122,7 @@ public class RecomendadorServiceTest {
 
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(listaFilmes);
         recomendadorService = new RecomendadorService(
+                notificadorPush,
                 geradorAleatorio,
                 catalogoFilmesAPI,
                 historicoUsuarioRepository,
@@ -139,12 +141,14 @@ public class RecomendadorServiceTest {
 
         when(catalogoFilmesAPI.buscarFilmes()).thenThrow(new RuntimeException("IOException simulada"));
         recomendadorService = new RecomendadorService(
+                notificadorPush,
                 geradorAleatorio,
                 catalogoFilmesAPI,
                 historicoUsuarioRepository,
                 perfilMaria,
                 calculadoraScore
         );
+
         List<Recomendacao> resultado = recomendadorService.recomendar(maria, 5);
 
         assertTrue(resultado.isEmpty());
@@ -157,35 +161,56 @@ public class RecomendadorServiceTest {
 
         maria.setNotificacoesHabilitadas(true);
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(List.of(
-                new Filme(176L, "Filme", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
+                new Filme(176L, "Filme", 2024, 120, List.of(Genero.ROMANCE), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
         ));
 
+        recomendadorService = new RecomendadorService(
+                notificadorPush,
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraScore
+        );
         recomendadorService.recomendar(maria, 1);
 
-        verify(notificadorPush, atLeastOnce()).enviarAviso(anyString(), eq(maria));
+        verify(notificadorPush, times(1)).enviarAviso(anyString(), eq(maria));
+
     }
 
     @Test
     @DisplayName("Teste 5: não deve enviar push quando desabilitado")
     void deve_NaoNotificar_Quando_PushDesabilitado() {
 
-        maria.setNotificacoesHabilitadas(false);
-        when(catalogoFilmesAPI.buscarFilmes()).thenReturn(List.of(mock(Filme.class)));
+        Filme f = new Filme(197L, "Filme", 2010, 148, List.of(Genero.DOCUMENTARIO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
+        List<Filme> filmes = List.of(f);
 
+        maria.setNotificacoesHabilitadas(false);
+        when(catalogoFilmesAPI.buscarFilmes()).thenReturn(filmes);
+
+        recomendadorService = new RecomendadorService(
+                notificadorPush,
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraScore
+        );
         recomendadorService.recomendar(maria, 1);
 
-        verify(notificadorPush, never()).enviarAviso(anyString(), any(Usuario.class));
+        verify(notificadorPush, never()).enviarAviso(anyString(), eq(maria));
     }
 
     @Test
     @DisplayName("Uso de ArgumentCaptor: validar lista no repositório")
     void deve_ValidarDadosGravados_UsandoArgumentCaptor() {
 
-        Filme f = new Filme(197L, "Filme", 2010, 148, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
+        Filme f = new Filme(197L, "Filme", 2010, 148, List.of(Genero.DOCUMENTARIO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
         List<Filme> filmes = List.of(f);
 
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(filmes);
         recomendadorService = new RecomendadorService(
+                notificadorPush,
                 geradorAleatorio,
                 catalogoFilmesAPI,
                 historicoUsuarioRepository,
@@ -218,6 +243,7 @@ public class RecomendadorServiceTest {
         when(geradorAleatorio.sortear(anyInt())).thenReturn(0);
 
         recomendadorService = new RecomendadorService(
+                notificadorPush,
                 geradorAleatorio,
                 catalogoFilmesAPI,
                 historicoUsuarioRepository,

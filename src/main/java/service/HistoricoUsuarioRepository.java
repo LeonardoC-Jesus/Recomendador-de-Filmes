@@ -28,5 +28,5 @@ public interface HistoricoUsuarioRepository {
      * Armazena todas as ultimas recomendações no histórico do sistema
      * @param recomendacoes uma lista de Objetos de recomendacoes.
      */
-    void registrarRecomendacao(List<Recomendacao> recomendacoes);
+     void registrarRecomendacao(List<Recomendacao> recomendacoes);
 }

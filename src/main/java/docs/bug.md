@@ -37,3 +37,8 @@ Bug 8:
 Descrição -> No método recomendar, a exceção IndexOutOfBoundsException está sendo lançada porque o sistema tenta acessar um indice inexistente na lista.
 Teste que revelou -> deve_OrdenarPorScoreDesc_Quando_ScoresSaoDiferentes() (Teste 2).
 Solução aplicada -> a inserção de uma condição a mais na hora de acessar algum indice da lista.
+
+Bug 9:
+Descrição -> RecomendadorService não enviava notificação, pois não tinha dependência de NotificadorPush;
+Teste que revelou -> deve_NaoNotificar_Quando_PushDesabilitado();
+Solução aplicada -> Adição de uma dependência de NotificadorPush na classe de RecomendadorService 
