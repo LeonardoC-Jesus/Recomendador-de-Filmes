@@ -4,12 +4,12 @@ public class Usuario {
     private String nome;
     private int idade;
     private PerfilCinefilo perfilCinefilo;
-    private Recomendacao recomendacao;
     private boolean notificacoesHabilitadas;
 
-    public Usuario(String nome, int idade, boolean notificacoesHabilitadas) {
+    public Usuario(String nome, int idade, PerfilCinefilo perfilCinefilo, boolean notificacoesHabilitadas) {
         this.nome = nome;
         this.idade = idade;
+        this.perfilCinefilo = perfilCinefilo;
         this.notificacoesHabilitadas = notificacoesHabilitadas;
     }
 
@@ -19,10 +19,6 @@ public class Usuario {
 
     public int getIdade() {
         return idade;
-    }
-
-    public Recomendacao getRecomendacao() {
-        return recomendacao;
     }
 
     public PerfilCinefilo getPerfilCinefilo() {
@@ -39,10 +35,6 @@ public class Usuario {
 
     public void setIdade(int idade) {
         this.idade = idade;
-    }
-
-    public void setRecomendacao(Recomendacao recomendacao) {
-        this.recomendacao = recomendacao;
     }
 
     public void setPerfilCinefilo(PerfilCinefilo perfilCinefilo) {

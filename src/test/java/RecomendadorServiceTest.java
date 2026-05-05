@@ -52,12 +52,17 @@ public class RecomendadorServiceTest {
                 new ArrayList<>()
         );
 
-        maria = new Usuario("Maria", 20, true);
-        maria.setPerfilCinefilo(perfilMaria);
+        maria = new Usuario("Maria", 20, perfilMaria, true);
 
         calculadoraScore = new CalculadoraScore();
 
-        filtroFilmes = new FiltroFilmes(catalogoFilmesAPI, maria.getPerfilCinefilo());
+        recomendadorService = new RecomendadorService(
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                filtroFilmes,
+                calculadoraScore
+                );
     }
 
     @Test
@@ -66,10 +71,10 @@ public class RecomendadorServiceTest {
 
         List<Filme> listaFilmes = Arrays.asList(
                 new Filme(1L, "F1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
-                new Filme(2L, "F2", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
-                new Filme(3L, "F3", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
-                new Filme(4L, "F4", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
-                new Filme(5L, "F5", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
+                new Filme(2L, "F2", 2023, 115, List.of(), Idioma.INGLES, ClassificacaoEtaria.DOZE, 85),
+                new Filme(3L, "F3", 2022, 110, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.DEZOITO, 93),
+                new Filme(4L, "F4", 2021, 105, List.of(), Idioma.ESPANHOL, ClassificacaoEtaria.LIVRE, 100),
+                new Filme(5L, "F5", 2020, 100, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 50)
         );
 
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(listaFilmes);
