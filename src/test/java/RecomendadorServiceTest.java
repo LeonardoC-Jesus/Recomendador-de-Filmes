@@ -231,9 +231,9 @@ public class RecomendadorServiceTest {
         );
     }
 
-    @Test
-    @DisplayName("Teste surpreenda-me: retorna filme no índice 2 sorteado")
-    void deve_RetornarFilmeSorteado_NoModoSurpreendaMe() throws IOException {
+    @Test 
+    @DisplayName("Teste surpreenda-me: retorna filme no índice sorteado")
+    void deve_RetornarFilmeSorteado_NoModoSurpreendaMe() throws IOException{
 
         Filme filme1 = new Filme(356L, "Filme1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
         Filme filme2 = new Filme(357L, "Filme2", 2025, 100, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
