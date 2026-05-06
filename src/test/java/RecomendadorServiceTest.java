@@ -231,7 +231,7 @@ public class RecomendadorServiceTest {
     }
 
     @Test
-    @DisplayName("Teste surpreenda-me: retorna filme no índice 2 sorteado")
+    @DisplayName("Teste surpreenda-me: retorna filme no índice sorteado")
     void deve_RetornarFilmeSorteado_NoModoSurpreendaMe() {
 
         Filme filme1 = new Filme(356L, "Filme1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
