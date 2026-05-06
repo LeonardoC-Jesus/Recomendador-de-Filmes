@@ -42,3 +42,8 @@ Bug 9:
 Descrição -> RecomendadorService não enviava notificação, pois não tinha dependência de NotificadorPush;
 Teste que revelou -> deve_NaoNotificar_Quando_PushDesabilitado();
 Solução aplicada -> Adição de uma dependência de NotificadorPush na classe de RecomendadorService 
+
+Bug 10:
+Descrição -> FiltroFilmes não tratava possível exceção lançada pelo CatalogoFilmesAPI;
+Teste que revelou -> deve_RetornarVazio_Quando_APIFalha();
+Solução aplicada -> Adição tratamento de exceção no construtor de FiltroFIlmes 
