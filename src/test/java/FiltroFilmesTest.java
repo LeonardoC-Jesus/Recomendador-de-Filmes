@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import service.CatalogoFilmesAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -69,7 +70,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
-    public void deve_RemoverFilme_Quando_JaFoiAssistido() {
+    public void deve_RemoverFilme_Quando_JaFoiAssistido() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(shrek);
         filmesDoCatalogo.add(coringa);
@@ -82,7 +83,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
-    public void deve_RemoverFilme_Quando_UltrapassarClassificacaoEtaria() {
+    public void deve_RemoverFilme_Quando_UltrapassarClassificacaoEtaria() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(shrek);
         filmesDoCatalogo.add(parasita);
@@ -96,7 +97,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
-    public void deve_RemoverFilme_Quando_IdiomaNaoAceito() {
+    public void deve_RemoverFilme_Quando_IdiomaNaoAceito() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(parasita);
         filmesDoCatalogo.add(oAutoDaCompadecida);
@@ -111,7 +112,7 @@ public class FiltroFilmesTest {
 
 
     @Test
-    public void deve_RemoverFilme_Quando_FilmeComPesoZero() {
+    public void deve_RemoverFilme_Quando_FilmeComPesoZero() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(interestelar);
         filmesDoCatalogo.add(oAutoDaCompadecida);
@@ -133,7 +134,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
-    public void deve_RetornarUmaListaVazia_Quando_ListaEstiverVazia() {
+    public void deve_RetornarUmaListaVazia_Quando_ListaEstiverVazia() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
         assertNotNull(filtroFilmes.filtrarFilmes());

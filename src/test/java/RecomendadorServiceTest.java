@@ -105,7 +105,7 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Teste 2: as recomendações devem vir por score decrescente")
-    void deve_OrdenarPorScoreDesc_Quando_ScoresSaoDiferentes() {
+    void deve_OrdenarPorScoreDesc_Quando_ScoresSaoDiferentes() throws IOException {
 
         List<Filme> listaFilmes = Arrays.asList(
                 new Filme(195L, "Filme 1", 2024, 90, List.of(Genero.FICCAO_CIENTIFICA), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 0),
@@ -138,7 +138,7 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Teste 3: Resiliência quando catálogo lança exceção")
-    void deve_RetornarVazio_Quando_APIFalha()  {
+    void deve_RetornarVazio_Quando_APIFalha() throws IOException  {
 
         when(catalogoFilmesAPI.buscarFilmes()).thenThrow(new IOException("API offline"));
         recomendadorService = new RecomendadorService(
@@ -158,7 +158,7 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Teste 4: deve enviar push quando habilitado")
-    void deve_Notificar_Quando_PushHabilitado() {
+    void deve_Notificar_Quando_PushHabilitado() throws IOException {
 
         maria.setNotificacoesHabilitadas(true);
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(List.of(
@@ -181,7 +181,7 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Teste 5: não deve enviar push quando desabilitado")
-    void deve_NaoNotificar_Quando_PushDesabilitado() {
+    void deve_NaoNotificar_Quando_PushDesabilitado() throws IOException {
 
         Filme f = new Filme(197L, "Filme", 2010, 148, List.of(Genero.DOCUMENTARIO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
         List<Filme> filmes = List.of(f);
@@ -204,7 +204,7 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Uso de ArgumentCaptor: validar lista no repositório")
-    void deve_ValidarDadosGravados_UsandoArgumentCaptor() {
+    void deve_ValidarDadosGravados_UsandoArgumentCaptor() throws IOException {
 
         Filme f = new Filme(197L, "Filme", 2010, 148, List.of(Genero.DOCUMENTARIO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
         List<Filme> filmes = List.of(f);
@@ -233,7 +233,7 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Teste surpreenda-me: retorna filme no índice 2 sorteado")
-    void deve_RetornarFilmeSorteado_NoModoSurpreendaMe() {
+    void deve_RetornarFilmeSorteado_NoModoSurpreendaMe() throws IOException {
 
         Filme filme1 = new Filme(356L, "Filme1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
         Filme filme2 = new Filme(357L, "Filme2", 2025, 100, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);

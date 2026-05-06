@@ -2,6 +2,7 @@ package service;
 
 import model.Filme;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -17,5 +18,5 @@ public interface CatalogoFilmesAPI {
      * @return Uma {@link List} contendo todos os objetos {@link Filme} cadastrados.
      * Retorna uma lista vazia caso não existam filmes disponíveis.
      */
-    public List<Filme> buscarFilmes();
+    List<Filme> buscarFilmes() throws IOException;
 }

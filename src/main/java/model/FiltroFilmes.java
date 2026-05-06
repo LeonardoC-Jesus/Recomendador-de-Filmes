@@ -4,6 +4,7 @@ import model.enums.Genero;
 import model.enums.Idioma;
 import service.CatalogoFilmesAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,14 +15,15 @@ public class FiltroFilmes {
     private PerfilCinefilo perfilCinefilo;
 
     public FiltroFilmes(CatalogoFilmesAPI catalogoFilmesAPI, PerfilCinefilo perfilCinefilo) {
+        try {
             this.perfilCinefilo = perfilCinefilo;
             this.filmesFiltrados = catalogoFilmesAPI.buscarFilmes();
+        } catch (IOException e) {
+            this.filmesFiltrados = Collections.emptyList();
+        }
     }
 
     public List<Filme> filtrarFilmes() {
-        if (filmesFiltrados.isEmpty()) {
-            return Collections.emptyList();
-        }
         filtrarFilmesPorClassificacao();
         filtrarFilmesPorIdioma();
         filtrarFilmesJaAssistidos();
