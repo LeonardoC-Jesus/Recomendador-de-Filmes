@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import service.*;
 import util.GeradorAleatorio;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +78,7 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Teste 1: TopN = 2, deve retornar exatamente 2 itens")
-    void deve_RetornarDoisItens_Quando_TopNForDois() {
+    void deve_RetornarDoisItens_Quando_TopNForDois() throws IOException {
 
         List<Filme> listaFilmes = Arrays.asList(
                 new Filme(112L, "F1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
@@ -137,9 +138,9 @@ public class RecomendadorServiceTest {
 
     @Test
     @DisplayName("Teste 3: Resiliência quando catálogo lança exceção")
-    void deve_RetornarVazio_Quando_APIFalha() {
+    void deve_RetornarVazio_Quando_APIFalha()  {
 
-        when(catalogoFilmesAPI.buscarFilmes()).thenThrow(new RuntimeException("IOException simulada"));
+        when(catalogoFilmesAPI.buscarFilmes()).thenThrow(new IOException("API offline"));
         recomendadorService = new RecomendadorService(
                 notificadorPush,
                 geradorAleatorio,

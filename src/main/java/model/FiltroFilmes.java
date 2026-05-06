@@ -14,8 +14,8 @@ public class FiltroFilmes {
     private PerfilCinefilo perfilCinefilo;
 
     public FiltroFilmes(CatalogoFilmesAPI catalogoFilmesAPI, PerfilCinefilo perfilCinefilo) {
-        this.perfilCinefilo = perfilCinefilo;
-        this.filmesFiltrados = catalogoFilmesAPI.buscarFilmes();
+            this.perfilCinefilo = perfilCinefilo;
+            this.filmesFiltrados = catalogoFilmesAPI.buscarFilmes();
     }
 
     public List<Filme> filtrarFilmes() {
