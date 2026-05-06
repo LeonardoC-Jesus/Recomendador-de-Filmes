@@ -252,9 +252,9 @@ public class RecomendadorServiceTest {
                 calculadoraScore
         );
 
-        Optional<Filme> resultado = recomendadorService.recomendarAleatorio();
+        Filme resultado = recomendadorService.recomendarAleatorio();
 
-        assertTrue(resultado.isPresent());
-        assertEquals(filme1, resultado.get());
+        assertNotNull(resultado);
+        assertEquals(filme1, resultado);
     }
 }

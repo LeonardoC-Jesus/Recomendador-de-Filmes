@@ -46,11 +46,13 @@ public class RecomendadorService {
         return recomendacoesTopN;
     }
 
-    public Optional<Filme> recomendarAleatorio() {
+    public Filme recomendarAleatorio() {
         List<Filme> filmes = filtrarFilmes();
 
         int numeroAleatorio = gerador.sortear(filmes.size());
-        return Optional.ofNullable(filmes.get(numeroAleatorio));
+        Filme filmeSorteado = filmes.get(numeroAleatorio);
+
+        return filmeSorteado;
     }
 
     private List<Filme> filtrarFilmes() {
