@@ -28,9 +28,9 @@ public class FiltroFilmes {
         filtrarFilmesPorIdioma();
         filtrarFilmesJaAssistidos();
         filtrarFilmesPorGenero();
+        filtrarFilmesPorDuracao();
         return filmesFiltrados;
     }
-
 
     private void filtrarFilmesPorClassificacao() {
         List<Filme> filmesPorClassificacao = new ArrayList<>();
@@ -63,19 +63,20 @@ public class FiltroFilmes {
         for (Filme filmedoCatalogo : filmesDoHistorico) {
             filmesFiltrados.removeIf(filme -> filme.getId().equals(filmedoCatalogo.getId()));
         }
-
     }
 
-    private void filtrarFilmesPorGenero(){
-
+    private void filtrarFilmesPorGenero() {
         for (Map.Entry<Genero, Double> genero: perfilCinefilo.getPesoPorGenero().entrySet()) {
             filmesFiltrados.removeIf(filme -> filme.getGeneros().contains(genero.getKey()) && genero.getValue() == 0.0);
         }
     }
 
+    private void filtrarFilmesPorDuracao() {
+        filmesFiltrados.removeIf(filme -> filme.getDuracao() <= perfilCinefilo.getDuracaoMaxima()
+                && filme.getDuracao() >= perfilCinefilo.getDuracaoMinima());
+    }
+
     public List<Filme> getFilmesFiltrados() {
         return filmesFiltrados;
     }
-
-
 }
