@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import service.*;
 import util.GeradorAleatorio;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,21 +24,10 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class RecomendadorServiceTest {
 
-    @Mock
-    private CatalogoFilmesAPI catalogoFilmesAPI;
-    // Justificativa: Evita chamadas de rede lentas e garante um catálogo controlado para o teste.
-
-    @Mock
-    private HistoricoUsuarioRepository historicoUsuarioRepository;
-    // Justificativa: Impede a escrita real em banco de dados ou disco durante a execução dos testes.
-
-    @Mock
-    private NotificadorPush notificadorPush;
-    // Justificativa: Garante que notificações não sejam enviadas de verdade aos usuários durante o desenvolvimento.
-
-    @Mock
-    private GeradorAleatorio geradorAleatorio;
-    // Justificativa: Torna o comportamento aleatório determinante, permitindo testar sorteios com previsibilidade.
+    @Mock private CatalogoFilmesAPI catalogoFilmesAPI;
+    @Mock private HistoricoUsuarioRepository historicoUsuarioRepository;
+    @Mock private NotificadorPush notificadorPush;
+    @Mock private GeradorAleatorio geradorAleatorio;
 
     private CalculadoraScore calculadoraScore;
     private PerfilCinefilo perfilMaria;
@@ -72,14 +59,11 @@ public class RecomendadorServiceTest {
         maria = new Usuario("Maria", 20, perfilMaria, true);
 
         calculadoraScore = new CalculadoraScore();
-
-
     }
 
     @Test
     @DisplayName("Teste 1: TopN = 2, deve retornar exatamente 2 itens")
     void deve_RetornarDoisItens_Quando_TopNForDois() throws IOException {
-
         List<Filme> listaFilmes = Arrays.asList(
                 new Filme(112L, "F1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100),
                 new Filme(211L, "F2", 2023, 115, List.of(), Idioma.INGLES, ClassificacaoEtaria.DOZE, 85),
@@ -106,7 +90,6 @@ public class RecomendadorServiceTest {
     @Test
     @DisplayName("Teste 2: as recomendações devem vir por score decrescente")
     void deve_OrdenarPorScoreDesc_Quando_ScoresSaoDiferentes() throws IOException {
-
         List<Filme> listaFilmes = Arrays.asList(
                 new Filme(195L, "Filme 1", 2024, 90, List.of(Genero.FICCAO_CIENTIFICA), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 0),
                 new Filme(209L, "Filme 2", 2024, 120, List.of(Genero.ACAO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
@@ -139,7 +122,6 @@ public class RecomendadorServiceTest {
     @Test
     @DisplayName("Teste 3: Resiliência quando catálogo lança exceção")
     void deve_RetornarVazio_Quando_APIFalha() throws IOException  {
-
         when(catalogoFilmesAPI.buscarFilmes()).thenThrow(new IOException("API offline"));
         recomendadorService = new RecomendadorService(
                 notificadorPush,
@@ -159,7 +141,6 @@ public class RecomendadorServiceTest {
     @Test
     @DisplayName("Teste 4: deve enviar push quando habilitado")
     void deve_Notificar_Quando_PushHabilitado() throws IOException {
-
         maria.setNotificacoesHabilitadas(true);
         when(catalogoFilmesAPI.buscarFilmes()).thenReturn(List.of(
                 new Filme(176L, "Filme", 2024, 120, List.of(Genero.ROMANCE), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100)
@@ -182,7 +163,6 @@ public class RecomendadorServiceTest {
     @Test
     @DisplayName("Teste 5: não deve enviar push quando desabilitado")
     void deve_NaoNotificar_Quando_PushDesabilitado() throws IOException {
-
         Filme f = new Filme(197L, "Filme", 2010, 148, List.of(Genero.DOCUMENTARIO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
         List<Filme> filmes = List.of(f);
 
@@ -205,7 +185,6 @@ public class RecomendadorServiceTest {
     @Test
     @DisplayName("Uso de ArgumentCaptor: validar lista no repositório")
     void deve_ValidarDadosGravados_UsandoArgumentCaptor() throws IOException {
-
         Filme f = new Filme(197L, "Filme", 2010, 148, List.of(Genero.DOCUMENTARIO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
         List<Filme> filmes = List.of(f);
 
@@ -234,7 +213,6 @@ public class RecomendadorServiceTest {
     @Test 
     @DisplayName("Teste surpreenda-me: retorna filme no índice sorteado")
     void deve_RetornarFilmeSorteado_NoModoSurpreendaMe() throws IOException{
-
         Filme filme1 = new Filme(356L, "Filme1", 2024, 120, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
         Filme filme2 = new Filme(357L, "Filme2", 2025, 100, List.of(), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 90);
         List<Filme> filmes = List.of(filme1, filme2);
@@ -252,9 +230,9 @@ public class RecomendadorServiceTest {
                 calculadoraScore
         );
 
-        Optional<Filme> resultado = recomendadorService.recomendarAleatorio();
+        Filme resultado = recomendadorService.recomendarAleatorio();
 
-        assertTrue(resultado.isPresent());
-        assertEquals(filme1, resultado.get());
+        assertNotNull(resultado);
+        assertEquals(filme1, resultado);
     }
 }

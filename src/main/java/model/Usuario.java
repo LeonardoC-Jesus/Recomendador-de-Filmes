@@ -17,28 +17,28 @@ public class Usuario {
         return nome;
     }
 
-    public int getIdade() {
-        return idade;
-    }
-
-    public PerfilCinefilo getPerfilCinefilo() {
-        return perfilCinefilo;
-    }
-
-    public boolean isNotificacoesHabilitadas() {
-        return notificacoesHabilitadas;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getIdade() {
+        return idade;
     }
 
     public void setIdade(int idade) {
         this.idade = idade;
     }
 
+    public PerfilCinefilo getPerfilCinefilo() {
+        return perfilCinefilo;
+    }
+
     public void setPerfilCinefilo(PerfilCinefilo perfilCinefilo) {
         this.perfilCinefilo = perfilCinefilo;
+    }
+
+    public boolean isNotificacoesHabilitadas() {
+        return notificacoesHabilitadas;
     }
 
     public void setNotificacoesHabilitadas(boolean notificacoesHabilitadas) {

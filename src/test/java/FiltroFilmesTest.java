@@ -5,6 +5,7 @@ import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,18 +15,15 @@ import service.CatalogoFilmesAPI;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static java.util.Collections.addAll;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class FiltroFilmesTest {
 
-    @Mock
-    private CatalogoFilmesAPI catalogoMock;
+    @Mock private CatalogoFilmesAPI catalogoMock;
 
     @InjectMocks
     FiltroFilmes filtroFilmes;
@@ -42,7 +40,6 @@ public class FiltroFilmesTest {
 
     @BeforeEach
     public void setup() {
-        // Exemplo de como associar aos filmes que já criamos
         List<Genero> generosInterestelar = List.of(Genero.FICCAO_CIENTIFICA, Genero.DRAMA);
         List<Genero> generosAutoDaCompadecida = List.of(Genero.COMEDIA);
         List<Genero> generosCoringa = List.of(Genero.DRAMA, Genero.ACAO);
@@ -54,7 +51,6 @@ public class FiltroFilmesTest {
         List<Filme> filmesNoHistorico = List.of(new Filme(7L,"Matrix", 1999, 136,generosMatrix, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 100),
         new Filme(6L, "Bob Esponja", 2004, 87, generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40));
 
-        // Filme(titulo, ano, duracao, idioma, classificacaoEtaria, popularidade)
         interestelar = new Filme(1L,"Interestelar", 2014, 169,generosInterestelar, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
         oAutoDaCompadecida = new Filme(2L,"O Auto da Compadecida", 2000, 104,generosAutoDaCompadecida, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
         coringa = new Filme(3L, "Coringa", 2019, 122,generosCoringa, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 92);
@@ -70,6 +66,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
+    @DisplayName("Teste 1: Deve remover o filme da lista se o usuário já o assistiu anteriormente")
     public void deve_RemoverFilme_Quando_JaFoiAssistido() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(shrek);
@@ -83,6 +80,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
+    @DisplayName("Teste 2: Deve restringir filmes com classificação etária superior à permitida no perfil")
     public void deve_RemoverFilme_Quando_UltrapassarClassificacaoEtaria() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(shrek);
@@ -97,6 +95,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
+    @DisplayName("Teste 3: Deve filtrar e remover filmes cujos idiomas não constam na lista de preferências do perfil")
     public void deve_RemoverFilme_Quando_IdiomaNaoAceito() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(parasita);
@@ -112,6 +111,7 @@ public class FiltroFilmesTest {
 
 
     @Test
+    @DisplayName("Teste 4: Deve excluir da lista filmes que pertençam a gêneros marcados com peso zero")
     public void deve_RemoverFilme_Quando_FilmeComPesoZero() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filmesDoCatalogo.add(interestelar);
@@ -134,6 +134,7 @@ public class FiltroFilmesTest {
     }
 
     @Test
+    @DisplayName("Teste 5: Deve retornar uma lista vazia instanciada quando o catálogo de filmes estiver vazio")
     public void deve_RetornarUmaListaVazia_Quando_ListaEstiverVazia() throws IOException {
         when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
         filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);

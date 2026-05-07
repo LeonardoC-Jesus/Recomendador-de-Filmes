@@ -53,7 +53,6 @@ public class CalculadoraScore {
     }
 
     private double calcularComponenteGenero(Filme filme, PerfilCinefilo perfilCinefilo) {
-
         double valorVazio = 0.0;
         if (filme.getGeneros().isEmpty()) {
             return valorVazio;
@@ -70,7 +69,6 @@ public class CalculadoraScore {
     }
 
     private double calcularComponenteDuracao(Filme filme, PerfilCinefilo perfilCinefilo) {
-
         int duracao = filme.getDuracao();
         if (duracao >= perfilCinefilo.getDuracaoMinima() && duracao <= perfilCinefilo.getDuracaoMaxima()) {
             return 100.0;
@@ -93,7 +91,6 @@ public class CalculadoraScore {
     }
 
     private double aplicarTrava(double valor) {
-
         double travaMaxima = 100.0;
         if (valor > travaMaxima) {
             return travaMaxima;

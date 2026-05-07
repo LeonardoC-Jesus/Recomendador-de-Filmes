@@ -63,6 +63,10 @@ public class PerfilCinefilo {
         return classificacaoMaxima;
     }
 
+    public void setClassificacaoMaxima(ClassificacaoEtaria classificacaoMaxima) {
+        this.classificacaoMaxima = classificacaoMaxima;
+    }
+
     public int getDuracaoMinima() {
         return duracaoMinima;
     }
@@ -75,32 +79,28 @@ public class PerfilCinefilo {
         return pesoPorGenero;
     }
 
-    public List<Idioma> getIdiomas() {
-        return idiomas;
-    }
-
-    public List<Filme> getHistoricoDeFilmes() {
-        return historicoDeFilmes;
-    }
-
-    public Map<Filme, Double> getMapaDeNotas() {
-        return mapaDeNotas;
-    }
-
     public void setPesoPorGenero(Map<Genero, Double> pesoPorGenero) {
         this.pesoPorGenero = pesoPorGenero;
+    }
+
+    public List<Idioma> getIdiomas() {
+        return idiomas;
     }
 
     public void setIdiomas(List<Idioma> idiomas) {
         this.idiomas = idiomas;
     }
 
-    public void setClassificacaoMaxima(ClassificacaoEtaria classificacaoMaxima) {
-        this.classificacaoMaxima = classificacaoMaxima;
+    public List<Filme> getHistoricoDeFilmes() {
+        return historicoDeFilmes;
     }
 
     public void setHistoricoDeFilmes(List<Filme> historicoDeFilmes) {
         this.historicoDeFilmes = historicoDeFilmes;
+    }
+
+    public Map<Filme, Double> getMapaDeNotas() {
+        return mapaDeNotas;
     }
 
     public void setMapaDeNotas(Map<Filme, Double> mapaDeNotas) {

@@ -5,7 +5,6 @@ import model.Filme;
 import java.io.IOException;
 import java.util.List;
 
-
 /**
  * Interface de integração com a API de catálogo de filmes.
  * Define o contrato para recuperação da lista de filmes disponíveis para recomendação.
