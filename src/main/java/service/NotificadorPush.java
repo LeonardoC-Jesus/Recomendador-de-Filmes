@@ -2,7 +2,6 @@ package service;
 
 import model.Usuario;
 
-
 /**
  * Interface responsável por definir o contrato de envio de notificações push.
  * Deve ser utilizada para alertar o usuário sobre novas recomendações.

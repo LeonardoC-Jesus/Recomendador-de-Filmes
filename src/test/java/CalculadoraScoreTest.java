@@ -74,7 +74,6 @@ public class CalculadoraScoreTest {
         assertEquals(0.0, score);
     }
 
-
     @Test
     @DisplayName("Teste 3: Filme no limite máximo da duração deve dar componente 100")
     void deve_testarScore_quando_estiverDentroDaDuracaoPreferida() {

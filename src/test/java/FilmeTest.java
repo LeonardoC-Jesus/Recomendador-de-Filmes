@@ -30,7 +30,6 @@ public class FilmeTest {
     @Test
     @DisplayName("Teste 1: Filme deve ter todos os atributos preenchidos corretamente")
     void deve_testarFilme_quando_todosOsAtributosSaoPreenchidos() {
-
         assertAll("Verificação de atributos do filme",
                 () -> assertEquals(1L, filme.getId(), "ID incorreto"),
                 () -> assertEquals("Oppenheimer", filme.getTitulo(), "Título incorreto"),
@@ -46,7 +45,6 @@ public class FilmeTest {
     @Test
     @DisplayName("Deve considerar dois filmes iguais quando possuem o mesmo ID")
     void deve_considerarFilmesIguais_quando_temMesmoId() {
-
         List<Genero> generos = List.of(Genero.FICCAO_CIENTIFICA);
         Filme outroFilme = new Filme(1L,
                 "Filme Diferente",
