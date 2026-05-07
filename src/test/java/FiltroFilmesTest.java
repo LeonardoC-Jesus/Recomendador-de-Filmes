@@ -109,7 +109,6 @@ public class FiltroFilmesTest {
         assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
     }
 
-
     @Test
     @DisplayName("Teste 4: Deve excluir da lista filmes que pertençam a gêneros marcados com peso zero")
     public void deve_RemoverFilme_Quando_FilmeComPesoZero() throws IOException {
