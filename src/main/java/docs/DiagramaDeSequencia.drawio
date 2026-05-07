@@ -1,0 +1,212 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="ZkjpVwl0cGg5RE6FyDHE">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g7XETnwAG9OI57hP5FJO-1" parent="1" style="html=1;whiteSpace=wrap;" value="RecomendadorService" vertex="1">
+          <mxGeometry height="50" width="150" x="150" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-2" parent="1" style="html=1;whiteSpace=wrap;" value="CalculadoraScore" vertex="1">
+          <mxGeometry height="50" width="150" x="910" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-3" parent="1" style="html=1;whiteSpace=wrap;" value="FiltroFilmes" vertex="1">
+          <mxGeometry height="50" width="110" x="390" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-4" parent="1" style="html=1;whiteSpace=wrap;" value="CatalogoFIlmesAPI" vertex="1">
+          <mxGeometry height="50" width="150" x="640" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-5" parent="1" style="html=1;whiteSpace=wrap;" value="NotificadorPush" vertex="1">
+          <mxGeometry height="50" width="150" x="1430" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-6" parent="1" style="html=1;whiteSpace=wrap;" value="HistoricoUsuarioRepository" vertex="1">
+          <mxGeometry height="50" width="160" x="1180" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-14" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="44.5" y="170" as="sourcePoint" />
+            <mxPoint x="45" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-7" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" value="Usuário" vertex="1">
+          <mxGeometry height="60" width="30" x="30" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-18" edge="1" parent="1" source="g7XETnwAG9OI57hP5FJO-1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="184.5" y="170" as="sourcePoint" />
+            <mxPoint x="220" y="980" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-19" edge="1" parent="1" source="g7XETnwAG9OI57hP5FJO-2" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="360" y="170" as="sourcePoint" />
+            <mxPoint x="985" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-20" edge="1" parent="1" source="g7XETnwAG9OI57hP5FJO-3" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="520" y="150" as="sourcePoint" />
+            <mxPoint x="445" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-21" edge="1" parent="1" source="g7XETnwAG9OI57hP5FJO-4" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="694.5" y="150" as="sourcePoint" />
+            <mxPoint x="715" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-24" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classicThin;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="50" y="200" as="sourcePoint" />
+            <mxPoint x="220" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-25" connectable="0" parent="g7XETnwAG9OI57hP5FJO-24" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Solicita Recomendação" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-26" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=classic;startFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="50" y="970" as="sourcePoint" />
+            <mxPoint x="220" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-28" connectable="0" parent="g7XETnwAG9OI57hP5FJO-26" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Recomenda Filmes" vertex="1">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-29" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classicThin;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="230" y="250" as="sourcePoint" />
+            <mxPoint x="440" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-30" connectable="0" parent="g7XETnwAG9OI57hP5FJO-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Solicita Filtro de filmes" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-31" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=classic;startFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="230" y="290" as="sourcePoint" />
+            <mxPoint x="440" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-32" connectable="0" parent="g7XETnwAG9OI57hP5FJO-31" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Devolve Catalogo filtrado" vertex="1">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint x="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-34" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;startArrow=none;startFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="450" y="370" as="sourcePoint" />
+            <mxPoint x="710" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-35" connectable="0" parent="g7XETnwAG9OI57hP5FJO-34" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Solicita Cataologo de filmes" vertex="1">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-37" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=classic;startFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="450" y="400" as="sourcePoint" />
+            <mxPoint x="710" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-38" connectable="0" parent="g7XETnwAG9OI57hP5FJO-37" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Devolve catologo de filmes" vertex="1">
+          <mxGeometry relative="1" x="0.12" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-39" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classicThin;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="230" y="585" as="sourcePoint" />
+            <mxPoint x="980" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-40" connectable="0" parent="g7XETnwAG9OI57hP5FJO-39" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Solicita calculo de score de cada filme" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-42" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=classicThin;startFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="230" y="620" as="sourcePoint" />
+            <mxPoint x="980" y="625" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-43" connectable="0" parent="g7XETnwAG9OI57hP5FJO-42" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Devolve score calculado de cada filme" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-44" edge="1" parent="1" source="g7XETnwAG9OI57hP5FJO-6" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="1310" y="250" as="sourcePoint" />
+            <mxPoint x="1260" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-45" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classicThin;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="230" y="760" as="sourcePoint" />
+            <mxPoint x="1260" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7XETnwAG9OI57hP5FJO-46" connectable="0" parent="g7XETnwAG9OI57hP5FJO-45" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Solicita salvamento dos filmes recomendados no histórico do usuário" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bUw2z48-pWfqYXA0oha--1" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classicThin;endFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="230" y="860" as="sourcePoint" />
+            <mxPoint x="1510" y="860" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bUw2z48-pWfqYXA0oha--2" connectable="0" parent="bUw2z48-pWfqYXA0oha--1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Solicita notificação se habilitada" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bUw2z48-pWfqYXA0oha--3" edge="1" parent="1" source="g7XETnwAG9OI57hP5FJO-5" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;endArrow=none;endFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="1530" y="330" as="sourcePoint" />
+            <mxPoint x="1510" y="930" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bUw2z48-pWfqYXA0oha--4" edge="1" parent="1" style="edgeStyle=none;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;startArrow=classicThin;startFill=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="230" y="920" as="sourcePoint" />
+            <mxPoint x="1510" y="920" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bUw2z48-pWfqYXA0oha--5" connectable="0" parent="bUw2z48-pWfqYXA0oha--4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Devolve notificação se habilitada" vertex="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
