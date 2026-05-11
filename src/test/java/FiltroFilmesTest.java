@@ -40,23 +40,16 @@ public class FiltroFilmesTest {
 
     @BeforeEach
     public void setup() {
-        List<Genero> generosInterestelar = List.of(Genero.FICCAO_CIENTIFICA, Genero.DRAMA);
-        List<Genero> generosAutoDaCompadecida = List.of(Genero.COMEDIA);
-        List<Genero> generosCoringa = List.of(Genero.DRAMA, Genero.ACAO);
-        List<Genero> generosParasita = List.of(Genero.DRAMA, Genero.TERROR);
-        List<Genero> generosShrek = List.of(Genero.COMEDIA, Genero.FICCAO_CIENTIFICA);
-        List<Genero> generosBobEsponja = List.of(Genero.COMEDIA);
-        List<Genero> generosMatrix = List.of(Genero.FICCAO_CIENTIFICA, Genero.ACAO);
 
-        List<Filme> filmesNoHistorico = List.of(new Filme(7L,"Matrix", 1999, 136,generosMatrix, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 100),
-        new Filme(6L, "Bob Esponja", 2004, 87, generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40));
+        List<Filme> filmesNoHistorico = List.of(new Filme(7L,"Matrix", 1999, 136,List.of(Genero.FICCAO_CIENTIFICA, Genero.ACAO), Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 100),
+        new Filme(6L, "Bob Esponja", 2004, 87, List.of(Genero.COMEDIA), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40));
 
-        interestelar = new Filme(1L,"Interestelar", 2014, 169,generosInterestelar, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
-        oAutoDaCompadecida = new Filme(2L,"O Auto da Compadecida", 2000, 104,generosAutoDaCompadecida, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
-        coringa = new Filme(3L, "Coringa", 2019, 122,generosCoringa, Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 92);
-        parasita = new Filme(4L, "Parasita", 2019, 132,generosParasita, Idioma.JAPONES, ClassificacaoEtaria.DEZOITO, 94);
-        shrek = new Filme(5L,"Shrek", 2001, 90,generosShrek, Idioma.INGLES, ClassificacaoEtaria.LIVRE, 85);
-        bobEsponja = new Filme(6L, "Bob Esponja", 2004, 87,generosBobEsponja, Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40);
+        interestelar = new Filme(1L,"Interestelar", 2014, 169,List.of(Genero.FICCAO_CIENTIFICA, Genero.DRAMA), Idioma.INGLES, ClassificacaoEtaria.LIVRE, 95);
+        oAutoDaCompadecida = new Filme(2L,"O Auto da Compadecida", 2000, 104,List.of(Genero.COMEDIA), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 98);
+        coringa = new Filme(3L, "Coringa", 2019, 122,List.of(Genero.DRAMA, Genero.ACAO), Idioma.INGLES, ClassificacaoEtaria.DEZESSEIS, 92);
+        parasita = new Filme(4L, "Parasita", 2019, 132,List.of(Genero.DRAMA, Genero.TERROR), Idioma.JAPONES, ClassificacaoEtaria.DEZOITO, 94);
+        shrek = new Filme(5L,"Shrek", 2001, 90,List.of(Genero.COMEDIA, Genero.FICCAO_CIENTIFICA), Idioma.INGLES, ClassificacaoEtaria.LIVRE, 85);
+        bobEsponja = new Filme(6L, "Bob Esponja", 2004, 87,List.of(Genero.COMEDIA), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 40);
 
         List<Idioma> idiomas = List.of(Idioma.PORTUGUES, Idioma.INGLES);
         filmesDoCatalogo = new ArrayList<>();
