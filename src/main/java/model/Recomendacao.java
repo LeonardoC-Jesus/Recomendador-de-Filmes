@@ -34,4 +34,12 @@ public class Recomendacao {
     public void setJustificativa(String justificativa) {
         this.justificativa = justificativa;
     }
+
+    @Override
+    public String toString() {
+        return "Filme: " + filme + "\n" +
+                "ScoreCalculado: " + scoreCalculado +"\n" +
+                "Justificativa: " + justificativa + "\n\n";
+
+    }
 }
