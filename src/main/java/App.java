@@ -1,12 +1,18 @@
+import model.Filme;
 import model.PerfilCinefilo;
+import model.Recomendacao;
 import model.Usuario;
 import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
+import service.*;
+import util.GeradorAleatorio;
 
+import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import java.text.Normalizer;
@@ -15,6 +21,100 @@ import java.util.regex.Pattern;
 public class App {
 
     private static Usuario usuario;
+    private static RecomendadorService recomendadorService;
+    private static PerfilCinefilo perfilCinefilo;
+    private static List<Filme> filmesDoHistoricoMock = new ArrayList<>();
+
+    static List<Filme> filmes = List.of(
+
+            new Filme(
+                    1L,
+                    "Interestelar",
+                    2014,
+                    169,
+                    List.of(Genero.FICCAO_CIENTIFICA, Genero.DRAMA),
+                    Idioma.INGLES,
+                    ClassificacaoEtaria.DOZE,
+                    95
+            ),
+
+            new Filme(
+                    2L,
+                    "Cidade de Deus",
+                    2002,
+                    130,
+                    List.of(Genero.DRAMA, Genero.ACAO),
+                    Idioma.PORTUGUES,
+                    ClassificacaoEtaria.DEZOITO,
+                    98
+            ),
+
+            new Filme(
+                    3L,
+                    "Parasita",
+                    2019,
+                    132,
+                    List.of(Genero.TERROR, Genero.DRAMA),
+                    Idioma.JAPONES,
+                    ClassificacaoEtaria.DEZESSEIS,
+                    96
+            ),
+
+            new Filme(
+                    4L,
+                    "Vingadores Ultimato",
+                    2019,
+                    181,
+                    List.of(Genero.ACAO, Genero.FICCAO_CIENTIFICA),
+                    Idioma.INGLES,
+                    ClassificacaoEtaria.DOZE,
+                    94
+            ),
+
+            new Filme(
+                    5L,
+                    "Your Name",
+                    2016,
+                    106,
+                    List.of(Genero.ROMANCE, Genero.DRAMA),
+                    Idioma.JAPONES,
+                    ClassificacaoEtaria.LIVRE,
+                    91
+            ),
+
+            new Filme(
+                    6L,
+                    "O Poço",
+                    2019,
+                    94,
+                    List.of(Genero.TERROR),
+                    Idioma.ESPANHOL,
+                    ClassificacaoEtaria.DEZOITO,
+                    85
+            ),
+
+            new Filme(
+                    7L,
+                    "Shrek",
+                    2001,
+                    90,
+                    List.of(Genero.COMEDIA),
+                    Idioma.INGLES,
+                    ClassificacaoEtaria.LIVRE,
+                    93
+            ),
+
+            new Filme(
+                    8L,
+                    "Clube da Luta",
+                    1999,
+                    139,
+                    List.of(Genero.DRAMA),
+                    Idioma.INGLES,
+                    ClassificacaoEtaria.DEZOITO,
+                    97
+            )
+    );
 
     public static void main(String[] args) {
        iniciar();
@@ -22,6 +122,28 @@ public class App {
 
     public static void iniciar() {
         Scanner input = new Scanner(System.in);
+        filmesDoHistoricoMock = List.of(new Filme(
+                        7L,
+                        "Shrek",
+                        2001,
+                        90,
+                        List.of(Genero.COMEDIA),
+                        Idioma.INGLES,
+                        ClassificacaoEtaria.LIVRE,
+                        93
+                ),
+
+                new Filme(
+                        8L,
+                        "Clube da Luta",
+                        1999,
+                        139,
+                        List.of(Genero.DRAMA),
+                        Idioma.INGLES,
+                        ClassificacaoEtaria.DEZOITO,
+                        97
+                ));
+
         int opcao;
 
         do {
@@ -37,8 +159,8 @@ public class App {
                 case 1:
                     cadastrarUsuario(input);
                     break;
-                case 2:
-
+                case 4:
+                    recomendarFilmes();
             }
         } while (opcao != 0);
     }
@@ -50,7 +172,7 @@ public class App {
         System.out.println("Digite sua idade:");
         int idade = input.nextInt();
 
-        PerfilCinefilo perfilCinefilo = casdastrarPerfilCinefilo(input);
+        perfilCinefilo = casdastrarPerfilCinefilo(input);
 
         cadastrarPesoPorGenero(perfilCinefilo, input);
         usuario = new Usuario(nome, idade, perfilCinefilo, true);
@@ -88,6 +210,68 @@ public class App {
             System.out.println(genero.getValor() + ":");
             perfilCinefilo.cadastrarPesoDeGenero(genero, input.nextDouble());
         }
+    }
 
+    static NotificadorPush notificadorPush = new NotificadorPush() {
+        @Override
+        public void enviarAviso(String mensagem, Usuario usuario) {
+            if (usuario.isNotificacoesHabilitadas()) {
+                System.out.println(mensagem);
+            }
+        }
+    };
+
+    static GeradorAleatorio geradorAleatorio = new GeradorAleatorio() {
+        @Override
+        public int sortear(int limite) {
+            Random random = new Random();
+
+            return random.nextInt(limite);
+        }
+    };
+
+    static HistoricoUsuarioRepository historicoUsuarioRepository = new HistoricoUsuarioRepository() {
+        @Override
+        public void salvar(Filme filme) {
+            filmesDoHistoricoMock.add(filme);
+        }
+
+        @Override
+        public List<Filme> consultarTudo() {
+            return filmesDoHistoricoMock;
+        }
+
+        @Override
+        public void registrarRecomendacao(List<Recomendacao> recomendacoes) {
+            for (Recomendacao recomendacao: recomendacoes) {
+                filmesDoHistoricoMock.add(recomendacao.getFilme());
+            }
+        }
+    };
+
+    static CatalogoFilmesAPI catalogoFilmesAPI = new CatalogoFilmesAPI() {
+        @Override
+        public List<Filme> buscarFilmes() throws IOException {
+            return filmes;
+        }
+    };
+
+    public static void recomendarFilmes() {
+
+        CalculadoraScore calculadoraScore = new CalculadoraScore();
+
+        recomendadorService = new RecomendadorService(
+                notificadorPush,
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilCinefilo,
+                calculadoraScore);
+
+        List<Recomendacao> recomendacoes = recomendadorService.recomendar(usuario, 3);
+
+        for (Recomendacao recomendacao: recomendacoes) {
+            System.out.println(recomendacao);
+        }
     }
 }
