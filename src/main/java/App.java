@@ -36,6 +36,9 @@ public class App {
             switch (opcao) {
                 case 1:
                     cadastrarUsuario(input);
+                    break;
+                case 2:
+
             }
         } while (opcao != 0);
     }
@@ -68,9 +71,10 @@ public class App {
         System.out.println("Quantos são?");
         List<Idioma> idiomas = new ArrayList<>();
         int quantidadeDeIdiomas = input.nextInt();
-        for (int i = 1; i < quantidadeDeIdiomas; i++) {
+
+        input.nextLine();
+        for (int i = 0; i < quantidadeDeIdiomas; i++) {
             System.out.println("Digite o idioma:");
-            input.nextLine();
             idiomas.add(Idioma.pegarPorValor(input.nextLine()));
         }
         return new PerfilCinefilo(classificacaoEtaria,duracaoMinima,duracaoMaxima,idiomas,new ArrayList<>());
@@ -81,10 +85,9 @@ public class App {
         System.out.println("Valores aceitos entre 0 e 1");
 
         for (Genero genero: Genero.values()) {
-            System.out.println(genero.getValor() + ": peso: " + input.nextLine());
-            input.nextLine();
+            System.out.println(genero.getValor() + ":");
+            perfilCinefilo.cadastrarPesoDeGenero(genero, input.nextDouble());
         }
 
-        System.out.println("Pesos cadastrados!!");
     }
 }
