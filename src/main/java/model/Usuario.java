@@ -44,4 +44,12 @@ public class Usuario {
     public void setNotificacoesHabilitadas(boolean notificacoesHabilitadas) {
         this.notificacoesHabilitadas = notificacoesHabilitadas;
     }
+
+    @Override
+    public String toString() {
+        String statusNotificacao = notificacoesHabilitadas ? "Ativadas" : "Desativadas";
+
+        return "Nome: " + nome + ", idade: " + idade + " anos, " + "notificações: " + statusNotificacao +
+                "\nPerfilCinefilo:\n" + perfilCinefilo;
+    }
 }

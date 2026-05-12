@@ -28,6 +28,7 @@ public class PerfilCinefilo {
         this.mapaDeNotas = new HashMap<>();
     }
 
+
     public void cadastrarPesoDeGenero(Genero genero, double peso) {
         double pesoMinimo = 0.0;
         double pesoMaximo = 1.0;
@@ -105,5 +106,13 @@ public class PerfilCinefilo {
 
     public void setMapaDeNotas(Map<Filme, Double> mapaDeNotas) {
         this.mapaDeNotas = mapaDeNotas;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassificacaoMaxima: " + classificacaoMaxima +
+                "\nDuracaoMinima: " + duracaoMinima +
+                "\nDuracaoMaxima: " + duracaoMaxima +
+                "\nIdiomas:" + idiomas + "\n";
     }
 }
