@@ -48,6 +48,18 @@ public class PerfilCinefilo {
         this.mapaDeNotas.put(filme, nota);
     }
 
+    public void cadastrarPerfilCinefilo(ClassificacaoEtaria classificacaoMaxima, int duracaoMinima, int duracaoMaxima, List<Idioma> idiomas, List<Filme> historicoDeFilmes) {
+        if (classificacaoMaxima == null || idiomas == null || idiomas.isEmpty() || historicoDeFilmes == null) {
+            throw new PerfilIncompletoException();
+        }
+
+        setDuracao(duracaoMinima, duracaoMaxima);
+
+        this.classificacaoMaxima = classificacaoMaxima;
+        this.idiomas = idiomas;
+        this.historicoDeFilmes = historicoDeFilmes;
+    }
+
     public void setDuracao(int duracaoMinima, int duracaoMaxima) {
         if (duracaoMinima > duracaoMaxima || duracaoMinima <= 0) {
             throw new DuracaoInvalidaException();
