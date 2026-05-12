@@ -1,8 +1,6 @@
 package model;
 
-import exception.DuracaoInvalidaException;
-import exception.NotaInvalidaException;
-import exception.PesoInvalidoException;
+import exception.*;
 import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
@@ -51,7 +49,7 @@ public class PerfilCinefilo {
     }
 
     public void setDuracao(int duracaoMinima, int duracaoMaxima) {
-        if (duracaoMinima > duracaoMaxima) {
+        if (duracaoMinima > duracaoMaxima || duracaoMinima <= 0) {
             throw new DuracaoInvalidaException();
         }
 
