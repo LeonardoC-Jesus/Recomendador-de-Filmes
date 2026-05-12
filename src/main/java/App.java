@@ -9,14 +9,10 @@ import service.*;
 import util.GeradorAleatorio;
 
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
-import java.text.Normalizer;
-import java.util.regex.Pattern;
 
 public class App {
 
@@ -25,9 +21,9 @@ public class App {
     private static PerfilCinefilo perfilCinefilo;
     private static List<Filme> filmesDoHistoricoMock = new ArrayList<>();
 
-    static List<Filme> filmes = List.of(
+    static List<Filme> filmes = new ArrayList<>();
 
-            new Filme(
+            static Filme Interestelar = new Filme(
                     1L,
                     "Interestelar",
                     2014,
@@ -36,9 +32,9 @@ public class App {
                     Idioma.INGLES,
                     ClassificacaoEtaria.DOZE,
                     95
-            ),
+            );
 
-            new Filme(
+            static Filme CidadeDeDeus = new Filme(
                     2L,
                     "Cidade de Deus",
                     2002,
@@ -47,9 +43,9 @@ public class App {
                     Idioma.PORTUGUES,
                     ClassificacaoEtaria.DEZOITO,
                     98
-            ),
+            );
 
-            new Filme(
+            static Filme Parasita = new Filme(
                     3L,
                     "Parasita",
                     2019,
@@ -58,9 +54,9 @@ public class App {
                     Idioma.JAPONES,
                     ClassificacaoEtaria.DEZESSEIS,
                     96
-            ),
+            );
 
-            new Filme(
+            static Filme VingadoresUltimato = new Filme(
                     4L,
                     "Vingadores Ultimato",
                     2019,
@@ -69,9 +65,9 @@ public class App {
                     Idioma.INGLES,
                     ClassificacaoEtaria.DOZE,
                     94
-            ),
+            );
 
-            new Filme(
+            static Filme YourName = new Filme(
                     5L,
                     "Your Name",
                     2016,
@@ -80,9 +76,9 @@ public class App {
                     Idioma.JAPONES,
                     ClassificacaoEtaria.LIVRE,
                     91
-            ),
+            );
 
-            new Filme(
+            static Filme OPoco = new Filme(
                     6L,
                     "O Poço",
                     2019,
@@ -91,9 +87,9 @@ public class App {
                     Idioma.ESPANHOL,
                     ClassificacaoEtaria.DEZOITO,
                     85
-            ),
+            );
 
-            new Filme(
+            static Filme Shrek = new Filme(
                     7L,
                     "Shrek",
                     2001,
@@ -102,9 +98,9 @@ public class App {
                     Idioma.INGLES,
                     ClassificacaoEtaria.LIVRE,
                     93
-            ),
+            );
 
-            new Filme(
+            static Filme ClubeDaLuta = new Filme(
                     8L,
                     "Clube da Luta",
                     1999,
@@ -113,36 +109,53 @@ public class App {
                     Idioma.INGLES,
                     ClassificacaoEtaria.DEZOITO,
                     97
-            )
-    );
+            );
+
 
     public static void main(String[] args) {
-       iniciar();
+        filmes.add(Interestelar);
+        filmes.add(CidadeDeDeus);
+        filmes.add(Parasita);
+        filmes.add(VingadoresUltimato);
+        filmes.add(YourName);
+        filmes.add(OPoco);
+        filmes.add(Shrek);
+        filmes.add(ClubeDaLuta);
+
+        iniciar();
     }
 
     public static void iniciar() {
         Scanner input = new Scanner(System.in);
-        filmesDoHistoricoMock = List.of(new Filme(
-                        7L,
-                        "Shrek",
-                        2001,
-                        90,
-                        List.of(Genero.COMEDIA),
-                        Idioma.INGLES,
-                        ClassificacaoEtaria.LIVRE,
-                        93
-                ),
+        filmesDoHistoricoMock =  new ArrayList<>();
 
-                new Filme(
-                        8L,
-                        "Clube da Luta",
-                        1999,
-                        139,
-                        List.of(Genero.DRAMA),
-                        Idioma.INGLES,
-                        ClassificacaoEtaria.DEZOITO,
-                        97
-                ));
+        Filme shrek = new Filme(
+                7L,
+                "Shrek",
+                2001,
+                90,
+                List.of(Genero.COMEDIA),
+                Idioma.INGLES,
+                ClassificacaoEtaria.LIVRE,
+                93
+                );
+
+        Filme clubeDaLuta = new Filme(
+                8L,
+                "Clube da Luta",
+                1999,
+                139,
+                List.of(Genero.DRAMA),
+                Idioma.INGLES,
+                ClassificacaoEtaria.DEZOITO,
+                97
+                );
+
+        filmesDoHistoricoMock.add(shrek);
+        filmesDoHistoricoMock.add(clubeDaLuta);
+
+        perfilCinefilo = new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 160, List.of(Idioma.PORTUGUES, Idioma.INGLES), filmesDoHistoricoMock);
+        usuario = new Usuario("Leonardo", 20, perfilCinefilo, true);
 
         int opcao;
 
@@ -150,8 +163,10 @@ public class App {
             System.out.println("Escolha uma opção:");
             System.out.println("[1] Cadastra-se");
             System.out.println("[2] Ver perfil");
-            System.out.println("[3] Ativar/Desativar notificações");
-            System.out.println("[4] Recomendar filmes");
+            System.out.println("[3] Ativar notificações");
+            System.out.println("[4] Desativar notificações");
+            System.out.println("[5] Recomendar filmes");
+            System.out.println("[6] Ver histórico de filmes");
             System.out.println("[0] Sair do sistema");
             opcao = input.nextInt();
 
@@ -159,8 +174,21 @@ public class App {
                 case 1:
                     cadastrarUsuario(input);
                     break;
+                case 2:
+                    mostrarUsuario();
+                    break;
+                case 3:
+                    ativarNotificacoes();
+                    break;
                 case 4:
+                    desativarNotificacoes();
+                    break;
+                case 5:
                     recomendarFilmes();
+                    break;
+                case 6:
+                    mostrarHistoricoDeFilmes();
+                    break;
             }
         } while (opcao != 0);
     }
@@ -210,6 +238,23 @@ public class App {
             System.out.println(genero.getValor() + ":");
             perfilCinefilo.cadastrarPesoDeGenero(genero, input.nextDouble());
         }
+    }
+
+    public static void mostrarHistoricoDeFilmes() {
+        for (Filme filme: perfilCinefilo.getHistoricoDeFilmes()) {
+            System.out.println(filme);
+        }
+    }
+    public static void ativarNotificacoes() {
+        usuario.setNotificacoesHabilitadas(true);
+    }
+
+    public static void desativarNotificacoes() {
+        usuario.setNotificacoesHabilitadas(false);
+    }
+
+    public static void mostrarUsuario() {
+        System.out.println(usuario);
     }
 
     static NotificadorPush notificadorPush = new NotificadorPush() {
@@ -272,6 +317,10 @@ public class App {
 
         for (Recomendacao recomendacao: recomendacoes) {
             System.out.println(recomendacao);
+        }
+
+        if (recomendacoes.isEmpty()) {
+            System.out.println("Sem mais filmes no catálogo!");
         }
     }
 }
