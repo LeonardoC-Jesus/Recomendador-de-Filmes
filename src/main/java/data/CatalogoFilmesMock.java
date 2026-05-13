@@ -4,12 +4,13 @@ import model.Filme;
 import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
+import service.CatalogoFilmesAPI;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CatalogoFilmesMock implements service.CatalogoFilmesAPI {
+public class CatalogoFilmesMock implements CatalogoFilmesAPI {
 
     List<Filme> catalogoMock = new ArrayList<>();
 
@@ -157,7 +158,6 @@ public class CatalogoFilmesMock implements service.CatalogoFilmesAPI {
             List.of(Genero.ACAO), Idioma.INGLES,
             ClassificacaoEtaria.DEZESSEIS, 91);
 
-    @Override
     public List<Filme> buscarFilmes() throws IOException {
         catalogoMock.add(interestelar);
         catalogoMock.add(autoDaCompadecida);
