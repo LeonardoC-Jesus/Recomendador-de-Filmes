@@ -41,7 +41,7 @@ public class RecomendadorService {
         historicoUsuarioRepository.registrarRecomendacao(recomendacoesTopN);
 
         if (usuario.isNotificacoesHabilitadas()) {
-            notificador.enviarAviso("Nova lista de Recomendação disponivel", usuario);
+            notificador.enviarAviso("NOVA LISTA DE RECOMENDAÇÃO DISPONÍVEL!!", usuario);
         }
         return recomendacoesTopN;
     }
