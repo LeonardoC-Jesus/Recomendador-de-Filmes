@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import service.*;
 import util.GeradorAleatorio;
@@ -29,7 +30,8 @@ public class RecomendadorServiceTest {
     @Mock private NotificadorPush notificadorPush;
     @Mock private GeradorAleatorio geradorAleatorio;
 
-    private CalculadoraScore calculadoraScore;
+    @Spy
+    private CalculadoraScore calculadoraScore = new CalculadoraScore();
     private PerfilCinefilo perfilMaria;
     private Usuario maria;
 
@@ -234,5 +236,52 @@ public class RecomendadorServiceTest {
 
         assertNotNull(resultado);
         assertEquals(filme1, resultado);
+    }
+
+    @Test
+    @DisplayName("Spy: deve chamar CalculadoraScore para cada filme recomendado")
+    void deve_calcularScoreUmaVezPorFilme_quando_recomendar() throws IOException {
+
+        Filme filme1 = new Filme(
+                10L,
+                "Batman",
+                2022,
+                120,
+                List.of(Genero.ACAO),
+                Idioma.PORTUGUES,
+                ClassificacaoEtaria.LIVRE,
+                90
+        );
+
+        Filme filme2 = new Filme(
+                11L,
+                "Interestelar 2",
+                2025,
+                130,
+                List.of(Genero.FICCAO_CIENTIFICA),
+                Idioma.INGLES,
+                ClassificacaoEtaria.DOZE,
+                95
+        );
+
+        List<Filme> filmes = List.of(filme1, filme2);
+
+        when(catalogoFilmesAPI.buscarFilmes()).thenReturn(filmes);
+
+        CalculadoraScore calculadoraSpy = spy(new CalculadoraScore());
+
+        recomendadorService = new RecomendadorService(
+                notificadorPush,
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                calculadoraSpy
+        );
+
+        recomendadorService.recomendar(maria, 2);
+
+        verify(calculadoraSpy, times(2))
+                .calcularScore(any(Filme.class), eq(perfilMaria));
     }
 }
