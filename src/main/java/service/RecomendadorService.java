@@ -1,9 +1,11 @@
 package service;
 
 import model.*;
+import model.enums.Genero;
 import util.GeradorAleatorio;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RecomendadorService {
     private NotificadorPush notificador;
@@ -26,7 +28,7 @@ public class RecomendadorService {
         List<Filme> filmes = filtrarFilmes();
         if (filmes == null || filmes.isEmpty()) return Collections.emptyList();
 
-        List<Recomendacao> recomendacoes = calcularScore(filmes);
+        List<Recomendacao> recomendacoes = definirJustificativa(calcularScore(filmes), usuario);
         List<Recomendacao> recomendacoesOrdenadas = ordenarPorScore(recomendacoes);
         List<Recomendacao> recomendacoesTopN = new ArrayList<>();
 
@@ -59,6 +61,30 @@ public class RecomendadorService {
         return filtroFilmes.filtrarFilmes();
     }
 
+    private List<Recomendacao> definirJustificativa(List<Recomendacao> recomendacoes, Usuario usuario) {
+        List<Recomendacao> recomendacoesComJustificativas = new ArrayList<>();
+        Map<Genero, Double> generosFiltrados = new HashMap<>();
+
+        for (Map.Entry<Genero, Double> genero: usuario.getPerfilCinefilo().getPesoPorGenero().entrySet()) {
+            if (genero.getValue() > 0.5) {
+                generosFiltrados.put(genero.getKey(), genero.getValue());
+            }
+        }
+
+        for (Recomendacao recomendacao : recomendacoes) {
+            for (Map.Entry<Genero, Double> genero : generosFiltrados.entrySet()) {
+                if (recomendacao.getFilme().getGeneros().contains(genero.getKey())) {
+                    recomendacao.setJustificativa("Recomendamos " + recomendacao.getFilme().getTitulo() + " porque você gosta filmes de " + genero.getKey());
+                    break;
+                } else if (recomendacao.getJustificativa().isEmpty()){
+                    recomendacao.setJustificativa("Recomendamos " + recomendacao.getFilme().getTitulo() + " porque sua classificação etária é " + recomendacao.getFilme().getClassificacaoEtaria());
+                }
+            }
+            recomendacoesComJustificativas.add(recomendacao);
+        }
+
+        return recomendacoesComJustificativas;
+    }
     private List<Recomendacao> calcularScore(List<Filme> filmesFiltrados) {
         List<Filme> filmes = filmesFiltrados;
         List<Recomendacao> recomendacoes = new ArrayList<>();
