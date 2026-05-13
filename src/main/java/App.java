@@ -1,3 +1,5 @@
+import data.CatalogoFilmesMock;
+import data.HistoricoFilmesMock;
 import model.Filme;
 import model.PerfilCinefilo;
 import model.Recomendacao;
@@ -9,201 +11,86 @@ import service.*;
 import util.GeradorAleatorio;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
 
     private static Usuario usuario;
     private static RecomendadorService recomendadorService;
     private static PerfilCinefilo perfilCinefilo;
+    private static HistoricoFilmesMock historicoFilmesMock= new HistoricoFilmesMock();
+    private static CatalogoFilmesMock catalogoFilmesMock = new CatalogoFilmesMock();
     private static List<Filme> filmesDoHistoricoMock = new ArrayList<>();
 
-    static List<Filme> filmes = new ArrayList<>();
-
-            static Filme Interestelar = new Filme(
-                    1L,
-                    "Interestelar",
-                    2014,
-                    169,
-                    List.of(Genero.FICCAO_CIENTIFICA, Genero.DRAMA),
-                    Idioma.INGLES,
-                    ClassificacaoEtaria.DOZE,
-                    95
-            );
-
-            static Filme CidadeDeDeus = new Filme(
-                    2L,
-                    "Cidade de Deus",
-                    2002,
-                    130,
-                    List.of(Genero.DRAMA, Genero.ACAO),
-                    Idioma.PORTUGUES,
-                    ClassificacaoEtaria.DEZOITO,
-                    98
-            );
-
-            static Filme Parasita = new Filme(
-                    3L,
-                    "Parasita",
-                    2019,
-                    132,
-                    List.of(Genero.TERROR, Genero.DRAMA),
-                    Idioma.JAPONES,
-                    ClassificacaoEtaria.DEZESSEIS,
-                    96
-            );
-
-            static Filme VingadoresUltimato = new Filme(
-                    4L,
-                    "Vingadores Ultimato",
-                    2019,
-                    181,
-                    List.of(Genero.ACAO, Genero.FICCAO_CIENTIFICA),
-                    Idioma.INGLES,
-                    ClassificacaoEtaria.DOZE,
-                    94
-            );
-
-            static Filme YourName = new Filme(
-                    5L,
-                    "Your Name",
-                    2016,
-                    106,
-                    List.of(Genero.ROMANCE, Genero.DRAMA),
-                    Idioma.JAPONES,
-                    ClassificacaoEtaria.LIVRE,
-                    91
-            );
-
-            static Filme OPoco = new Filme(
-                    6L,
-                    "O Poço",
-                    2019,
-                    94,
-                    List.of(Genero.TERROR),
-                    Idioma.ESPANHOL,
-                    ClassificacaoEtaria.DEZOITO,
-                    85
-            );
-
-            static Filme Shrek = new Filme(
-                    7L,
-                    "Shrek",
-                    2001,
-                    90,
-                    List.of(Genero.COMEDIA),
-                    Idioma.INGLES,
-                    ClassificacaoEtaria.LIVRE,
-                    93
-            );
-
-            static Filme ClubeDaLuta = new Filme(
-                    8L,
-                    "Clube da Luta",
-                    1999,
-                    139,
-                    List.of(Genero.DRAMA),
-                    Idioma.INGLES,
-                    ClassificacaoEtaria.DEZOITO,
-                    97
-            );
-
-
-    public static void main(String[] args) {
-        filmes.add(Interestelar);
-        filmes.add(CidadeDeDeus);
-        filmes.add(Parasita);
-        filmes.add(VingadoresUltimato);
-        filmes.add(YourName);
-        filmes.add(OPoco);
-        filmes.add(Shrek);
-        filmes.add(ClubeDaLuta);
-
+    public static void main(String[] args) throws IOException {
         iniciar();
+        Scanner input = new Scanner(System.in);
+        //cadastrarUsuario(input);
     }
 
-    public static void iniciar() {
+    public static void iniciar() throws IOException {
         Scanner input = new Scanner(System.in);
-        filmesDoHistoricoMock =  new ArrayList<>();
 
-        Filme shrek = new Filme(
-                7L,
-                "Shrek",
-                2001,
-                90,
-                List.of(Genero.COMEDIA),
-                Idioma.INGLES,
-                ClassificacaoEtaria.LIVRE,
-                93
-                );
-
-        Filme clubeDaLuta = new Filme(
-                8L,
-                "Clube da Luta",
-                1999,
-                139,
-                List.of(Genero.DRAMA),
-                Idioma.INGLES,
-                ClassificacaoEtaria.DEZOITO,
-                97
-                );
-
-        filmesDoHistoricoMock.add(shrek);
-        filmesDoHistoricoMock.add(clubeDaLuta);
-
-        perfilCinefilo = new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 160, List.of(Idioma.PORTUGUES, Idioma.INGLES), filmesDoHistoricoMock);
-        usuario = new Usuario("Leonardo", 20, perfilCinefilo, true);
+        filmesDoHistoricoMock =  historicoFilmesMock.consultarHistorico();
+        //perfilCinefilo = new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 160, List.of(Idioma.PORTUGUES, Idioma.INGLES), filmesDoHistoricoMock);
+        //usuario = new Usuario("Leonardo", 20, perfilCinefilo, true);
 
         int opcao;
 
-        do {
-            System.out.println("Escolha uma opção:");
-            System.out.println("[1] Cadastra-se");
-            System.out.println("[2] Ver perfil");
-            System.out.println("[3] Ativar notificações");
-            System.out.println("[4] Desativar notificações");
-            System.out.println("[5] Recomendar filmes");
-            System.out.println("[6] Ver histórico de filmes");
-            System.out.println("[0] Sair do sistema");
-            opcao = input.nextInt();
+        try {
+            do {
+                System.out.println("Escolha uma opção:");
+                System.out.println("[1] Cadastra-se");
+                System.out.println("[2] Ver perfil");
+                System.out.println("[3] Ativar notificações");
+                System.out.println("[4] Desativar notificações");
+                System.out.println("[5] Recomendar filmes");
+                System.out.println("[6] Ver histórico de filmes");
+                System.out.println("[0] Sair do sistema");
+                opcao = input.nextInt();
 
-            switch (opcao) {
-                case 1:
-                    cadastrarUsuario(input);
-                    break;
-                case 2:
-                    mostrarUsuario();
-                    break;
-                case 3:
-                    ativarNotificacoes();
-                    break;
-                case 4:
-                    desativarNotificacoes();
-                    break;
-                case 5:
-                    recomendarFilmes();
-                    break;
-                case 6:
-                    mostrarHistoricoDeFilmes();
-                    break;
-            }
-        } while (opcao != 0);
+                switch (opcao) {
+                    case 1:
+                        cadastrarUsuario(input);
+                        break;
+                    case 2:
+                        mostrarUsuario();
+                        break;
+                    case 3:
+                        ativarNotificacoes();
+                        break;
+                    case 4:
+                        desativarNotificacoes();
+                        break;
+                    case 5:
+                        recomendarFilmes();
+                        break;
+                    case 6:
+                        mostrarHistoricoDeFilmes();
+                        break;
+                }
+            } while (opcao != 0);
+        } catch (InputMismatchException e) {
+          //  System.out.println("Tipo de entrada inválida\nColoque apenas números");
+        }
     }
 
     public static void cadastrarUsuario(Scanner input) {
-        System.out.println("Digite seu Nome:");
-        String nome = input.nextLine();
-        input.nextLine();
-        System.out.println("Digite sua idade:");
-        int idade = input.nextInt();
+        try {
+            System.out.println("Digite seu Nome:");
+            String nome = input.nextLine();
+            input.nextLine();
+            System.out.println("Digite sua idade:");
+            int idade = input.nextInt();
 
-        perfilCinefilo = casdastrarPerfilCinefilo(input);
+            perfilCinefilo = casdastrarPerfilCinefilo(input);
 
-        cadastrarPesoPorGenero(perfilCinefilo, input);
-        usuario = new Usuario(nome, idade, perfilCinefilo, true);
+            cadastrarPesoPorGenero(perfilCinefilo, input);
+            usuario = new Usuario(nome, idade, perfilCinefilo, true);
+        } catch (InputMismatchException e) {
+            System.out.println("Tipo de entrada inválida\n" +
+                    "Coloque apenas números");
+        }
     }
 
     public static PerfilCinefilo casdastrarPerfilCinefilo(Scanner input) {
@@ -227,7 +114,7 @@ public class App {
             System.out.println("Digite o idioma:");
             idiomas.add(Idioma.pegarPorValor(input.nextLine()));
         }
-        return new PerfilCinefilo(classificacaoEtaria,duracaoMinima,duracaoMaxima,idiomas,new ArrayList<>());
+        return new PerfilCinefilo(classificacaoEtaria,duracaoMinima,duracaoMaxima,idiomas,filmesDoHistoricoMock);
     }
 
     public static void cadastrarPesoPorGenero(PerfilCinefilo perfilCinefilo, Scanner input) {
@@ -241,20 +128,30 @@ public class App {
     }
 
     public static void mostrarHistoricoDeFilmes() {
-        for (Filme filme: perfilCinefilo.getHistoricoDeFilmes()) {
-            System.out.println(filme);
+        try {
+            for (Filme filme : perfilCinefilo.getHistoricoDeFilmes()) {
+                System.out.println(filme);
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Usuário ainda não foi cadastrado");
         }
     }
+
     public static void ativarNotificacoes() {
-        usuario.setNotificacoesHabilitadas(true);
+        if (usuario != null) usuario.setNotificacoesHabilitadas(true);
     }
 
     public static void desativarNotificacoes() {
-        usuario.setNotificacoesHabilitadas(false);
+        if (usuario != null) usuario.setNotificacoesHabilitadas(false);
     }
 
     public static void mostrarUsuario() {
-        System.out.println(usuario);
+        if (usuario != null) {
+            System.out.println(usuario);
+        } else  {
+            System.out.println("Usuário ainda não foi cadastrado");
+        }
+
     }
 
     static NotificadorPush notificadorPush = new NotificadorPush() {
@@ -294,33 +191,30 @@ public class App {
         }
     };
 
-    static CatalogoFilmesAPI catalogoFilmesAPI = new CatalogoFilmesAPI() {
-        @Override
-        public List<Filme> buscarFilmes() throws IOException {
-            return filmes;
-        }
-    };
-
     public static void recomendarFilmes() {
 
-        CalculadoraScore calculadoraScore = new CalculadoraScore();
+        try {
+            CalculadoraScore calculadoraScore = new CalculadoraScore();
 
-        recomendadorService = new RecomendadorService(
-                notificadorPush,
-                geradorAleatorio,
-                catalogoFilmesAPI,
-                historicoUsuarioRepository,
-                perfilCinefilo,
-                calculadoraScore);
+            recomendadorService = new RecomendadorService(
+                    notificadorPush,
+                    geradorAleatorio,
+                    catalogoFilmesMock,
+                    historicoUsuarioRepository,
+                    perfilCinefilo,
+                    calculadoraScore);
 
-        List<Recomendacao> recomendacoes = recomendadorService.recomendar(usuario, 3);
+            List<Recomendacao> recomendacoes = recomendadorService.recomendar(usuario, 3);
 
-        for (Recomendacao recomendacao: recomendacoes) {
-            System.out.println(recomendacao);
-        }
+            for (Recomendacao recomendacao : recomendacoes) {
+                System.out.println(recomendacao);
+            }
 
-        if (recomendacoes.isEmpty()) {
-            System.out.println("Sem mais filmes no catálogo!");
+            if (recomendacoes.isEmpty()) {
+                System.out.println("Sem mais filmes no catálogo!");
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Usuário ainda não foi cadastrado");
         }
     }
 }
