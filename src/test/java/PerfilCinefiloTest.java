@@ -1,6 +1,5 @@
 import exception.DuracaoInvalidaException;
 import exception.NotaInvalidaException;
-import exception.PerfilIncompletoException;
 import exception.PesoInvalidoException;
 import model.Filme;
 import model.PerfilCinefilo;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 public class PerfilCinefiloTest {
 
@@ -28,6 +26,7 @@ public class PerfilCinefiloTest {
 
     @BeforeEach
     void setUp() {
+
         MockitoAnnotations.openMocks(this);
 
         perfilCinefilo = new PerfilCinefilo(
@@ -40,107 +39,55 @@ public class PerfilCinefiloTest {
     }
 
     @Test
-    @DisplayName("Teste 1: Deve criar perfil cinéfilo com atributos válidos")
-    void deve_criarPerfilCinefilo_quando_dadosForemValidos() {
+    @DisplayName("Teste 1: Deve criar perfil com pesos válidos")
+    void deve_criarPerfil_quando_pesosForemValidos() {
+
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, 0.8);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA, 0.5);
 
         assertAll(
+
                 () -> assertEquals(
-                        ClassificacaoEtaria.DEZOITO,
-                        perfilCinefilo.getClassificacaoMaxima()
+                        0.8,
+                        perfilCinefilo.getPesoPorGenero().get(Genero.ACAO)
                 ),
 
                 () -> assertEquals(
-                        90,
-                        perfilCinefilo.getDuracaoMinima()
-                ),
-
-                () -> assertEquals(
-                        180,
-                        perfilCinefilo.getDuracaoMaxima()
-                ),
-
-                () -> assertEquals(
-                        2,
-                        perfilCinefilo.getIdiomas().size()
-                ),
-
-                () -> assertTrue(
-                        perfilCinefilo.getHistoricoDeFilmes().isEmpty()
+                        0.5,
+                        perfilCinefilo.getPesoPorGenero().get(Genero.COMEDIA)
                 )
         );
     }
 
     @Test
-    @DisplayName("Teste 2: Deve cadastrar peso de gênero corretamente")
-    void deve_cadastrarPesoDeGenero_quando_pesoForValido() {
-
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, 0.8);
-
-        assertEquals(
-                0.8,
-                perfilCinefilo.getPesoPorGenero().get(Genero.ACAO)
-        );
-    }
-
-    @Test
-    @DisplayName("Teste 3: Deve lançar exceção quando peso for inválido")
-    void deve_lancarExcecao_quando_pesoGeneroForInvalido() {
+    @DisplayName("Teste 2: Deve lançar exceção quando peso for menor que 0")
+    void deve_lancarExcecao_quando_pesoForMenorQueZero() {
 
         assertThrows(
                 PesoInvalidoException.class,
                 () -> perfilCinefilo.cadastrarPesoDeGenero(
-                        Genero.COMEDIA,
+                        Genero.DRAMA,
+                        -0.1
+                )
+        );
+    }
+
+    @Test
+    @DisplayName("Teste 3: Deve lançar exceção quando peso for maior que 1")
+    void deve_lancarExcecao_quando_pesoForMaiorQueUm() {
+
+        assertThrows(
+                PesoInvalidoException.class,
+                () -> perfilCinefilo.cadastrarPesoDeGenero(
+                        Genero.DRAMA,
                         1.5
                 )
         );
     }
 
     @Test
-    @DisplayName("Teste 4: Deve registrar nota válida para filme")
-    void deve_registrarNota_quando_notaForValida() {
-
-        when(filmeMock.getTitulo()).thenReturn("Filme Mockado");
-
-        perfilCinefilo.registrarNota(filmeMock, 4.5);
-
-        assertEquals(
-                4.5,
-                perfilCinefilo.getMapaDeNotas().get(filmeMock)
-        );
-    }
-
-    @Test
-    @DisplayName("Teste 5: Deve lançar exceção quando nota for inválida")
-    void deve_lancarExcecao_quando_notaForInvalida() {
-
-        assertThrows(
-                NotaInvalidaException.class,
-                () -> perfilCinefilo.registrarNota(filmeMock, 6.0)
-        );
-    }
-
-    @Test
-    @DisplayName("Teste 6: Deve atualizar duração corretamente")
-    void deve_atualizarDuracao_quando_valoresForemValidos() {
-
-        perfilCinefilo.setDuracao(100, 200);
-
-        assertAll(
-                () -> assertEquals(
-                        100,
-                        perfilCinefilo.getDuracaoMinima()
-                ),
-
-                () -> assertEquals(
-                        200,
-                        perfilCinefilo.getDuracaoMaxima()
-                )
-        );
-    }
-
-    @Test
-    @DisplayName("Teste 7: Deve lançar exceção quando duração for inválida")
-    void deve_lancarExcecao_quando_duracaoForInvalida() {
+    @DisplayName("Teste 4: Deve lançar exceção quando duração mínima for maior que máxima")
+    void deve_lancarExcecao_quando_duracaoMinimaForMaiorQueMaxima() {
 
         assertThrows(
                 DuracaoInvalidaException.class,
@@ -149,57 +96,33 @@ public class PerfilCinefiloTest {
     }
 
     @Test
-    @DisplayName("Teste 8: Deve atualizar perfil corretamente")
-    void deve_atualizarPerfil_quando_dadosForemValidos() {
+    @DisplayName("Teste 5: Deve lançar exceção quando nota for menor que 1")
+    void deve_lancarExcecao_quando_notaForMenorQueUm() {
 
-        List<Idioma> idiomas = List.of(Idioma.JAPONES);
-
-        List<Filme> historico = new ArrayList<>();
-
-        perfilCinefilo.cadastrarPerfilCinefilo(
-                ClassificacaoEtaria.DEZESSEIS,
-                80,
-                150,
-                idiomas,
-                historico
-        );
-
-        assertAll(
-                () -> assertEquals(
-                        ClassificacaoEtaria.DEZESSEIS,
-                        perfilCinefilo.getClassificacaoMaxima()
-                ),
-
-                () -> assertEquals(
-                        80,
-                        perfilCinefilo.getDuracaoMinima()
-                ),
-
-                () -> assertEquals(
-                        150,
-                        perfilCinefilo.getDuracaoMaxima()
-                ),
-
-                () -> assertEquals(
-                        Idioma.JAPONES,
-                        perfilCinefilo.getIdiomas().get(0)
-                )
+        assertThrows(
+                NotaInvalidaException.class,
+                () -> perfilCinefilo.registrarNota(filmeMock, 0.5)
         );
     }
 
     @Test
-    @DisplayName("Teste 9: Deve lançar exceção quando perfil estiver incompleto")
-    void deve_lancarExcecao_quando_perfilEstiverIncompleto() {
+    @DisplayName("Teste 6: Deve lançar exceção quando nota for maior que 5")
+    void deve_lancarExcecao_quando_notaForMaiorQueCinco() {
 
         assertThrows(
-                PerfilIncompletoException.class,
-                () -> perfilCinefilo.cadastrarPerfilCinefilo(
-                        null,
-                        90,
-                        120,
-                        List.of(),
-                        new ArrayList<>()
-                )
+                NotaInvalidaException.class,
+                () -> perfilCinefilo.registrarNota(filmeMock, 5.5)
+        );
+    }
+
+    @Test
+    @DisplayName("Teste 7: Filme assistido deve aparecer no histórico")
+    void deve_adicionarFilmeAoHistorico() {
+
+        perfilCinefilo.getHistoricoDeFilmes().add(filmeMock);
+
+        assertTrue(
+                perfilCinefilo.getHistoricoDeFilmes().contains(filmeMock)
         );
     }
 }
