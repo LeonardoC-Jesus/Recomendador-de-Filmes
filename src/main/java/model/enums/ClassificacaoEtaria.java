@@ -1,5 +1,7 @@
 package model.enums;
 
+import exception.ClassificacaoInvalidaException;
+
 public enum ClassificacaoEtaria {
     LIVRE(0),
     DEZ(10),
@@ -16,5 +18,14 @@ public enum ClassificacaoEtaria {
 
     public int getCLASSIFICACAO() {
         return CLASSIFICACAO;
+    }
+
+    public static ClassificacaoEtaria pegarPeloValor(int valor) {
+        for (ClassificacaoEtaria classificacaoEtaria: ClassificacaoEtaria.values()) {
+            if (classificacaoEtaria.getCLASSIFICACAO() == valor) {
+                return classificacaoEtaria;
+            }
+        }
+        throw new ClassificacaoInvalidaException();
     }
 }

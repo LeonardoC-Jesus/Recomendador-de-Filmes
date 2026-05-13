@@ -72,8 +72,7 @@ public class FiltroFilmes {
     }
 
     private void filtrarFilmesPorDuracao() {
-        filmesFiltrados.removeIf(filme -> filme.getDuracao() <= perfilCinefilo.getDuracaoMaxima()
-                && filme.getDuracao() >= perfilCinefilo.getDuracaoMinima());
+        filmesFiltrados.removeIf(filme -> filme.getDuracao() >= perfilCinefilo.getDuracaoMaxima() && filme.getDuracao() <= perfilCinefilo.getDuracaoMinima());
     }
 
     public List<Filme> getFilmesFiltrados() {

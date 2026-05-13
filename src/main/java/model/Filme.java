@@ -106,8 +106,9 @@ public class Filme {
     
     @Override
     public String toString() {
-        return "Filme{" +
-                 titulo + '\'' +
-                '}';
+        return "Filme: " + titulo + "\n" +
+                "Duração: " + duracao + " minutos\n" +
+                "Idioma: " + idioma.getValor() + "\n" +
+                "Classificação: " + classificacaoEtaria + "\n";
     }
 }

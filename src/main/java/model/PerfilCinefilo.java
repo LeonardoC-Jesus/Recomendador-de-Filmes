@@ -1,8 +1,6 @@
 package model;
 
-import exception.DuracaoInvalidaException;
-import exception.NotaInvalidaException;
-import exception.PesoInvalidoException;
+import exception.*;
 import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
@@ -28,6 +26,7 @@ public class PerfilCinefilo {
         this.mapaDeNotas = new HashMap<>();
     }
 
+
     public void cadastrarPesoDeGenero(Genero genero, double peso) {
         double pesoMinimo = 0.0;
         double pesoMaximo = 1.0;
@@ -50,8 +49,20 @@ public class PerfilCinefilo {
         this.mapaDeNotas.put(filme, nota);
     }
 
+    public void cadastrarPerfilCinefilo(ClassificacaoEtaria classificacaoMaxima, int duracaoMinima, int duracaoMaxima, List<Idioma> idiomas, List<Filme> historicoDeFilmes) {
+        if (classificacaoMaxima == null || idiomas == null || idiomas.isEmpty() || historicoDeFilmes == null) {
+            throw new PerfilIncompletoException();
+        }
+
+        setDuracao(duracaoMinima, duracaoMaxima);
+
+        this.classificacaoMaxima = classificacaoMaxima;
+        this.idiomas = idiomas;
+        this.historicoDeFilmes = historicoDeFilmes;
+    }
+
     public void setDuracao(int duracaoMinima, int duracaoMaxima) {
-        if (duracaoMinima > duracaoMaxima) {
+        if (duracaoMinima > duracaoMaxima || duracaoMinima <= 0) {
             throw new DuracaoInvalidaException();
         }
 
@@ -105,5 +116,13 @@ public class PerfilCinefilo {
 
     public void setMapaDeNotas(Map<Filme, Double> mapaDeNotas) {
         this.mapaDeNotas = mapaDeNotas;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassificacaoMaxima: " + classificacaoMaxima +
+                "\nDuracaoMinima: " + duracaoMinima +
+                "\nDuracaoMaxima: " + duracaoMaxima +
+                "\nIdiomas:" + idiomas + "\n";
     }
 }
