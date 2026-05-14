@@ -31,6 +31,7 @@ public class App {
 
         filmesDoHistoricoMock =  historicoFilmesMock.consultarHistorico();
         perfilCinefilo = new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 160, List.of(Idioma.PORTUGUES, Idioma.INGLES), filmesDoHistoricoMock);
+
         perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, 0.9);
         perfilCinefilo.cadastrarPesoDeGenero(Genero.TERROR, 0.0);
         perfilCinefilo.cadastrarPesoDeGenero(Genero.ROMANCE, 0.7);
@@ -38,6 +39,7 @@ public class App {
         perfilCinefilo.cadastrarPesoDeGenero(Genero.DRAMA, 0.5);
         perfilCinefilo.cadastrarPesoDeGenero(Genero.FICCAO_CIENTIFICA, 0.9);
         perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA_ROMANTICA, 0.8);
+
         usuario = new Usuario("Leonardo", 20, perfilCinefilo, true);
 
         int opcao;
