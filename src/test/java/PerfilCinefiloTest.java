@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -125,6 +127,20 @@ public class PerfilCinefiloTest {
             );
         }
 
+        @ParameterizedTest(name = "Nota {0} deve lançar NotaInvalidaException")
+        @CsvSource({
+                "0.0",
+                "0.9",
+                "5.1",
+                "10.0",
+                "-1.0"
+        })
+        @DisplayName("Teste Parametrizado: Validação de Notas Fora do Intervalo")
+        void deve_LancarExcecao_Quando_NotasForemInvalidas(double notaErrada) {
+            assertThrows(NotaInvalidaException.class, () -> {
+                perfilCinefilo.registrarNota(filmeMock, notaErrada);
+            });
+        }
     }
 
     @Nested
