@@ -2,10 +2,7 @@ import model.Filme;
 import model.enums.ClassificacaoEtaria;
 import model.enums.Genero;
 import model.enums.Idioma;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.List;
 
@@ -26,6 +23,11 @@ public class FilmeTest {
                 Idioma.INGLES,
                 ClassificacaoEtaria.DEZESSEIS,
                 95);
+    }
+
+    @AfterEach
+    void limparCenario() {
+        filme = null;
     }
 
     @Nested
