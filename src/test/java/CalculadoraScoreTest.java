@@ -91,7 +91,7 @@ public class CalculadoraScoreTest {
         })
         @DisplayName("Teste Parametrizado: Cálculo de Score por Peso de Gênero")
         void deve_CalcularScoreProporcional_AoPesoDoGenero(double peso, double scoreEsperado) {
-            Filme filme = new Filme(1L, "Filme Teste", 2024, 100, List.of(Genero.ACAO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 100);
+            Filme filme = new Filme(1L, "Filme Teste", 2024, 300, List.of(Genero.ACAO), Idioma.PORTUGUES, ClassificacaoEtaria.LIVRE, 0);
             perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, peso);
 
             double scoreObtido = calculadoraScore.calcularScore(filme, perfilCinefilo);
