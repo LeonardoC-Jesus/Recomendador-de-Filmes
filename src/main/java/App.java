@@ -24,16 +24,14 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         iniciar();
-        Scanner input = new Scanner(System.in);
-        //cadastrarUsuario(input);
     }
 
     public static void iniciar() throws IOException {
         Scanner input = new Scanner(System.in);
 
         filmesDoHistoricoMock =  historicoFilmesMock.consultarHistorico();
-        //perfilCinefilo = new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 160, List.of(Idioma.PORTUGUES, Idioma.INGLES), filmesDoHistoricoMock);
-        //usuario = new Usuario("Leonardo", 20, perfilCinefilo, true);
+        perfilCinefilo = new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 160, List.of(Idioma.PORTUGUES, Idioma.INGLES), filmesDoHistoricoMock);
+        usuario = new Usuario("Leonardo", 20, perfilCinefilo, true);
 
         int opcao;
 
