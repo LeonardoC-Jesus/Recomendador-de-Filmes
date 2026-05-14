@@ -284,4 +284,97 @@ public class RecomendadorServiceTest {
         verify(calculadoraSpy, times(2))
                 .calcularScore(any(Filme.class), eq(perfilMaria));
     }
+
+    @Test
+    @org.junit.jupiter.api.Tag("integracao")
+    @DisplayName("Integração: pipeline completo deve retornar ranking esperado")
+    void deve_ExecutarPipelineCompleto_Quando_GerarRecomendacoes() throws IOException {
+
+        perfilMaria.cadastrarPesoDeGenero(Genero.ACAO, 1.0);
+        perfilMaria.cadastrarPesoDeGenero(Genero.FICCAO_CIENTIFICA, 0.9);
+        perfilMaria.cadastrarPesoDeGenero(Genero.DRAMA, 0.2);
+
+        Filme filmeMaisRelevante = new Filme(
+                100L,
+                "Mad Max",
+                2024,
+                120,
+                List.of(Genero.ACAO),
+                Idioma.PORTUGUES,
+                ClassificacaoEtaria.DOZE,
+                100
+        );
+
+        Filme filmeMedio = new Filme(
+                101L,
+                "Interestelar 2",
+                2025,
+                140,
+                List.of(Genero.FICCAO_CIENTIFICA),
+                Idioma.INGLES,
+                ClassificacaoEtaria.DOZE,
+                80
+        );
+
+        Filme filmePior = new Filme(
+                102L,
+                "Drama Triste",
+                2020,
+                200,
+                List.of(Genero.DRAMA),
+                Idioma.PORTUGUES,
+                ClassificacaoEtaria.DEZOITO,
+                20
+        );
+
+        when(catalogoFilmesAPI.buscarFilmes())
+                .thenReturn(List.of(
+                        filmePior,
+                        filmeMaisRelevante,
+                        filmeMedio
+                ));
+
+        when(geradorAleatorio.sortear(anyInt())).thenReturn(1);
+
+        recomendadorService = new RecomendadorService(
+                notificadorPush,
+                geradorAleatorio,
+                catalogoFilmesAPI,
+                historicoUsuarioRepository,
+                perfilMaria,
+                new CalculadoraScore()
+        );
+
+        List<Recomendacao> resultado =
+                recomendadorService.recomendar(maria, 3);
+
+        assertAll(
+                () -> assertEquals(3, resultado.size()),
+
+                () -> assertEquals(
+                        "Mad Max",
+                        resultado.get(0).getFilme().getTitulo()
+                ),
+
+                () -> assertEquals(
+                        "Interestelar 2",
+                        resultado.get(1).getFilme().getTitulo()
+                ),
+
+                () -> assertEquals(
+                        "Drama Triste",
+                        resultado.get(2).getFilme().getTitulo()
+                ),
+
+                () -> assertTrue(
+                        resultado.get(0).getScoreCalculado()
+                                >= resultado.get(1).getScoreCalculado()
+                ),
+
+                () -> assertTrue(
+                        resultado.get(1).getScoreCalculado()
+                                >= resultado.get(2).getScoreCalculado()
+                )
+        );
+    }
 }
