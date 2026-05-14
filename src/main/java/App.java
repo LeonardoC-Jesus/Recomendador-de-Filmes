@@ -31,6 +31,15 @@ public class App {
 
         filmesDoHistoricoMock =  historicoFilmesMock.consultarHistorico();
         perfilCinefilo = new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 160, List.of(Idioma.PORTUGUES, Idioma.INGLES), filmesDoHistoricoMock);
+
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, 0.9);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.TERROR, 0.0);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.ROMANCE, 0.7);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.DOCUMENTARIO, 0.4);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.DRAMA, 0.5);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.FICCAO_CIENTIFICA, 0.9);
+        perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA_ROMANTICA, 0.8);
+
         usuario = new Usuario("Leonardo", 20, perfilCinefilo, true);
 
         int opcao;
@@ -69,7 +78,7 @@ public class App {
                 }
             } while (opcao != 0);
         } catch (InputMismatchException e) {
-          //  System.out.println("Tipo de entrada inválida\nColoque apenas números");
+            System.out.println("Tipo de entrada inválida\nColoque apenas números");
         }
     }
 

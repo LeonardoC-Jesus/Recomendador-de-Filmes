@@ -6,6 +6,7 @@ import model.enums.Genero;
 import model.enums.Idioma;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -58,78 +59,93 @@ public class FiltroFilmesTest {
                 new PerfilCinefilo(ClassificacaoEtaria.DEZESSEIS, 90, 150, idiomas, filmesNoHistorico);
     }
 
-    @Test
-    @DisplayName("Teste 1: Deve remover o filme da lista se o usuário já o assistiu anteriormente")
-    public void deve_RemoverFilme_Quando_JaFoiAssistido() throws IOException {
-        when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
-        filmesDoCatalogo.add(shrek);
-        filmesDoCatalogo.add(coringa);
-        filmesDoCatalogo.add(bobEsponja);
+    @Nested
+    @DisplayName("Filtros de Restrição de Perfil")
+    class FiltrosRestricao {
 
-        filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
-        filtroFilmes.filtrarFilmes();
+        @Test
+        @DisplayName("Teste 1: Deve remover o filme da lista se o usuário já o assistiu anteriormente")
+        public void deve_RemoverFilme_Quando_JaFoiAssistido() throws IOException {
+            when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+            filmesDoCatalogo.add(shrek);
+            filmesDoCatalogo.add(coringa);
+            filmesDoCatalogo.add(bobEsponja);
 
-        assertNotEquals("Bob Esponja", filtroFilmes.getFilmesFiltrados().getLast().getTitulo());
+            filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
+            filtroFilmes.filtrarFilmes();
+
+            assertNotEquals("Bob Esponja", filtroFilmes.getFilmesFiltrados().getLast().getTitulo());
+        }
+
+        @Test
+        @DisplayName("Teste 2: Deve restringir filmes com classificação etária superior à permitida no perfil")
+        public void deve_RemoverFilme_Quando_UltrapassarClassificacaoEtaria() throws IOException {
+            when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+            filmesDoCatalogo.add(shrek);
+            filmesDoCatalogo.add(parasita);
+            filmesDoCatalogo.add(interestelar);
+
+            filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
+
+            filtroFilmes.filtrarFilmes();
+
+            assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
+        }
+
+        @Test
+        @DisplayName("Teste 3: Deve filtrar e remover filmes cujos idiomas não constam na lista de preferências do perfil")
+        public void deve_RemoverFilme_Quando_IdiomaNaoAceito() throws IOException {
+            when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+            filmesDoCatalogo.add(parasita);
+            filmesDoCatalogo.add(oAutoDaCompadecida);
+            filmesDoCatalogo.add(coringa);
+
+            filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
+
+            filtroFilmes.filtrarFilmes();
+
+            assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
+        }
     }
 
-    @Test
-    @DisplayName("Teste 2: Deve restringir filmes com classificação etária superior à permitida no perfil")
-    public void deve_RemoverFilme_Quando_UltrapassarClassificacaoEtaria() throws IOException {
-        when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
-        filmesDoCatalogo.add(shrek);
-        filmesDoCatalogo.add(parasita);
-        filmesDoCatalogo.add(interestelar);
+    @Nested
+    @DisplayName("Filtros de Preferências de Gênero")
+    class FiltrosPreferencia {
 
-        filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
+        @Test
+        @DisplayName("Teste 4: Deve excluir da lista filmes que pertençam a gêneros marcados com peso zero")
+        public void deve_RemoverFilme_Quando_FilmeComPesoZero() throws IOException {
+            when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+            filmesDoCatalogo.add(interestelar);
+            filmesDoCatalogo.add(oAutoDaCompadecida);
+            filmesDoCatalogo.add(shrek);
 
-        filtroFilmes.filtrarFilmes();
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, 1.0);
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA, 0.5);
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.DRAMA, 0.0);
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.FICCAO_CIENTIFICA, 0.7);
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA_ROMANTICA, 1.0);
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.DOCUMENTARIO, 0.2);
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.ROMANCE, 0.8);
+            perfilCinefilo.cadastrarPesoDeGenero(Genero.TERROR, 0.5);
+            filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
 
-        assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
+            filtroFilmes.filtrarFilmes();
+
+            assertEquals(2,filtroFilmes.getFilmesFiltrados().size());
+        }
     }
 
-    @Test
-    @DisplayName("Teste 3: Deve filtrar e remover filmes cujos idiomas não constam na lista de preferências do perfil")
-    public void deve_RemoverFilme_Quando_IdiomaNaoAceito() throws IOException {
-        when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
-        filmesDoCatalogo.add(parasita);
-        filmesDoCatalogo.add(oAutoDaCompadecida);
-        filmesDoCatalogo.add(coringa);
+    @Nested
+    @DisplayName("Cenários de Fronteira do Catálogo")
+    class CenariosFronteira {
 
-        filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
-
-        filtroFilmes.filtrarFilmes();
-
-        assertNotEquals(filmesDoCatalogo, filtroFilmes.getFilmesFiltrados());
-    }
-
-    @Test
-    @DisplayName("Teste 4: Deve excluir da lista filmes que pertençam a gêneros marcados com peso zero")
-    public void deve_RemoverFilme_Quando_FilmeComPesoZero() throws IOException {
-        when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
-        filmesDoCatalogo.add(interestelar);
-        filmesDoCatalogo.add(oAutoDaCompadecida);
-        filmesDoCatalogo.add(shrek);
-
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.ACAO, 1.0);
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA, 0.5);
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.DRAMA, 0.0);
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.FICCAO_CIENTIFICA, 0.7);
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.COMEDIA_ROMANTICA, 1.0);
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.DOCUMENTARIO, 0.2);
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.ROMANCE, 0.8);
-        perfilCinefilo.cadastrarPesoDeGenero(Genero.TERROR, 0.5);
-        filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
-
-        filtroFilmes.filtrarFilmes();
-
-        assertEquals(2,filtroFilmes.getFilmesFiltrados().size());
-    }
-
-    @Test
-    @DisplayName("Teste 5: Deve retornar uma lista vazia instanciada quando o catálogo de filmes estiver vazio")
-    public void deve_RetornarUmaListaVazia_Quando_ListaEstiverVazia() throws IOException {
-        when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
-        filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
-        assertNotNull(filtroFilmes.filtrarFilmes());
+        @Test
+        @DisplayName("Teste 5: Deve retornar uma lista vazia instanciada quando o catálogo de filmes estiver vazio")
+        public void deve_RetornarUmaListaVazia_Quando_ListaEstiverVazia() throws IOException {
+            when(catalogoMock.buscarFilmes()).thenReturn(filmesDoCatalogo);
+            filtroFilmes = new FiltroFilmes(catalogoMock, perfilCinefilo);
+            assertNotNull(filtroFilmes.filtrarFilmes());
+        }
     }
 }
