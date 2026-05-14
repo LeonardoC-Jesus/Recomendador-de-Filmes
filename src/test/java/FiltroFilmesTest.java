@@ -148,4 +148,48 @@ public class FiltroFilmesTest {
             assertNotNull(filtroFilmes.filtrarFilmes());
         }
     }
+
+    @Test
+    @DisplayName("Stub sequencial: deve retornar catálogos diferentes em instâncias diferentes")
+    void deve_RetornarCatalogosDiferentes_Quando_UsarStubSequencial() throws IOException {
+
+        Filme primeiroFilme = new Filme(
+                10L,
+                "Filme A",
+                2024,
+                120,
+                List.of(Genero.ACAO),
+                Idioma.PORTUGUES,
+                ClassificacaoEtaria.DEZESSEIS,
+                90
+        );
+
+        Filme segundoFilme = new Filme(
+                11L,
+                "Filme B",
+                2023,
+                110,
+                List.of(Genero.COMEDIA),
+                Idioma.INGLES,
+                ClassificacaoEtaria.DEZESSEIS,
+                80
+        );
+
+        when(catalogoMock.buscarFilmes())
+                .thenReturn(List.of(primeiroFilme))
+                .thenReturn(List.of(segundoFilme));
+
+        FiltroFilmes primeiroFiltro = new FiltroFilmes(catalogoMock, perfilCinefilo);
+        List<Filme> resultadoPrimeiro = primeiroFiltro.filtrarFilmes();
+
+        FiltroFilmes segundoFiltro = new FiltroFilmes(catalogoMock, perfilCinefilo);
+        List<Filme> resultadoSegundo = segundoFiltro.filtrarFilmes();
+
+        assertAll(
+                () -> assertEquals(1, resultadoPrimeiro.size()),
+                () -> assertEquals(1, resultadoSegundo.size()),
+                () -> assertEquals("Filme A", resultadoPrimeiro.get(0).getTitulo()),
+                () -> assertEquals("Filme B", resultadoSegundo.get(0).getTitulo())
+        );
+    }
 }
